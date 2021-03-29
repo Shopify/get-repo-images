@@ -1,0 +1,13 @@
+name: get-repo-images
+
+type: node
+
+up:
+  - node:
+      version: v14.16.0
+      yarn: true
+
+commands:
+  start: yarn watch
+  test: yarn test
+  build: yarn build
