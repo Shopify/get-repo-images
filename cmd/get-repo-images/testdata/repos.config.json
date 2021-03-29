@@ -1,0 +1,11 @@
+{
+	"repos": [{
+		"repo": "testdata",
+		"usageMatchers": ["<img"],
+		"UsageNoExtension": true,
+		"extensions": ["png", "jpg"],
+		"minSize": 1000
+	}, {
+		"repo": "alex-page/alexpage.com.au"
+	}]
+}
