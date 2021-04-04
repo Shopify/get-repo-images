@@ -1,7 +1,7 @@
 {
   "name": "@shopify/get-repo-images",
   "description": "Find images and their usage across multiple repositories",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "repository": "https://github.com/Shopify/get-repo-images.git",
   "author": "Alex Page <alex@alexpage.com.au>",
   "license": "MIT",
@@ -9,10 +9,14 @@
   "main": "dist/index.js",
   "module": "dist/index.module.js",
   "unpkg": "dist/index.umd.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "microbundle --target node",
     "watch": "microbundle watch --target node",
-    "test": "eslint '**/*.ts' && jest"
+    "test": "eslint '**/*.ts' && jest",
+    "prepublishOnly": "yarn build"
   },
   "dependencies": {
     "fdir": "^5.0.0",
