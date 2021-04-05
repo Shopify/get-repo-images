@@ -28,16 +28,16 @@ export const getFilePaths = (
 
 export const getFileInfo = async (
   paths: string[],
-  repoName: string,
+  repo: string,
   repoPath: string,
 ): Promise<FileInformation[]> => {
   const getInfo = paths.map(async (path) => {
     const stat = await fs.stat(path);
     const {birthtime, size} = stat;
     return {
-      repo: repoName,
+      repo,
       path: path.replace(repoPath, ''),
-      birthtime: birthtime.toJSON().split('T')[0],
+      birthtime: birthtime.toJSON(),
       size,
       usage: [],
     };
@@ -66,12 +66,12 @@ export const filterFiles = (
 
 const findFiles = async (
   repoPath: string,
-  repoName: string,
+  repo: string,
   settings: RepoSettings,
 ): Promise<FileInformation[]> => {
   const {excludedPaths, extensions, createdAfter, minSize} = settings;
   const filePaths = getFilePaths(repoPath, excludedPaths, extensions);
-  const fileInfo = await getFileInfo(filePaths, repoName, repoPath);
+  const fileInfo = await getFileInfo(filePaths, repo, repoPath);
   const files = filterFiles(fileInfo, createdAfter, minSize);
 
   return files;

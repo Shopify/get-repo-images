@@ -32,17 +32,18 @@ const defaultSettings = {
 };
 
 const getUrl = (repoName: string, token?: string) =>
-  `https://${token && `${token}@`}github.com/${repoName}.git`;
+  `https://${token ? `${token}@` : ''}github.com/${repoName}.git`;
 
 const tmpClonePath = '.repo';
 const getRepoImages = async (
-  repos: RepoSettings[] | string[],
+  _repos: RepoSettings[] | string[],
   token?: string,
-  callback?: () => void,
+  callback?: (results) => void,
 ) => {
   try {
-    if (typeof repos[0] === 'string') {
-      repos.map((repo) => ({name: repo}));
+    let repos = _repos;
+    if (typeof _repos[0] === 'string') {
+      repos = _repos.map((repo) => ({name: repo}));
     }
 
     const cloneUrls = repos.map((repo) => getUrl(repo.name, token));
@@ -52,17 +53,19 @@ const getRepoImages = async (
       const settings = {...defaultSettings, ...repo};
       const repoName = repo.name.split('/')[1];
       const repoPath = `${tmpClonePath}/${repoName}`;
-      const images = await findFiles(repoPath, repoName, settings);
+      const images = await findFiles(repoPath, repo.name, settings);
       const usage = await findUsage(images, repoPath, settings);
       return usage;
     });
 
     const results = await Promise.all(getImages);
+
     if (callback) {
-      await callback();
+      await callback(results);
     }
+
     await fs.rmdir(tmpClonePath, {recursive: true});
-    return results;
+    return results.flat();
   } catch (error) {
     await fs.rmdir(tmpClonePath, {recursive: true});
     throw new Error(error.message);

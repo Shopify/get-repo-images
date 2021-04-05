@@ -45,16 +45,14 @@ describe('getFileInfo', () => {
       'test/fixtures',
     );
 
-    expect(fileInfo.sort()).toStrictEqual([
+    expect(fileInfo.sort()).toMatchObject([
       {
-        birthtime: '2021-04-04',
         path: '/mock-1.html',
         repo: 'repo/repo',
         size: 275,
         usage: [],
       },
       {
-        birthtime: '2021-04-04',
         path: '/mock-2.html',
         repo: 'repo/repo',
         size: 348,
@@ -111,9 +109,8 @@ describe('findFiles', () => {
       minSize: 150,
     });
 
-    expect(files).toStrictEqual([
+    expect(files).toMatchObject([
       {
-        birthtime: '2021-04-04',
         path: '/images/image.jpg',
         repo: 'repo/repo',
         size: 379,

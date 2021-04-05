@@ -27,9 +27,8 @@ describe('findUsage', () => {
       {name: 'not-used'},
     );
 
-    expect(fileInfo.sort()).toStrictEqual([
+    expect(fileInfo.sort()).toMatchObject([
       {
-        birthtime: '2021-04-04',
         path: '/image.png',
         size: 281,
         usage: [
