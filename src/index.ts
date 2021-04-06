@@ -58,14 +58,14 @@ const getRepoImages = async (
       return usage;
     });
 
-    const results = await Promise.all(getImages);
+    const results = (await Promise.all(getImages)).flat();
 
     if (callback) {
       await callback(results);
     }
 
     await fs.rmdir(tmpClonePath, {recursive: true});
-    return results.flat();
+    return results;
   } catch (error) {
     await fs.rmdir(tmpClonePath, {recursive: true});
     throw new Error(error.message);

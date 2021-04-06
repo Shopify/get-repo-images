@@ -82,7 +82,7 @@ const getRepoImages = require('@shopify/get-repo-images');
   }
 
   const images = await getRepoImages([{
-    repo: 'alex-page/alexpage.com.au',
+    name: 'alex-page/alexpage.com.au',
     extensions: ['svg'],
     excludedPaths: ['docs/images/'],
     minSize: 1000,
