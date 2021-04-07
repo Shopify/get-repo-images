@@ -35,8 +35,13 @@ const defaultSettings = {
 const getUrl = (repoName: string, token?: string) =>
   `https://${token ? `${token}@` : ''}github.com/${repoName}.git`;
 
-const message = (foundImages, searchedRepos, totalRepos) =>
-  `Found ${foundImages} images in ${searchedRepos}/${totalRepos} repos`;
+const message = (
+  foundImages: number,
+  searchedRepos: number,
+  totalUsage: number,
+  totalRepos: number,
+) =>
+  `${searchedRepos}/${totalRepos} found ${foundImages} images used in ${totalUsage} files |`;
 
 const tmpClonePath = '.repo';
 const getRepoImages = async (
@@ -52,20 +57,27 @@ const getRepoImages = async (
 
     let totalRepos = 0;
     let totalImages = 0;
-    const getMessage = () => message(totalImages, totalRepos, repos.length);
+    let totalUsage = 0;
+    const getMessage = () =>
+      message(totalImages, totalRepos, totalUsage, repos.length);
     const getImages = repos.map(async (repo) => {
-      spinner.text = `${getMessage()} | cloning ${repo.name}`;
+      spinner.text = `${getMessage()} cloning ${repo.name}`;
       const url = getUrl(repo.name, token);
       await clone({repos: [url], destination: tmpClonePath, isTreeless: true});
       const settings = {...defaultSettings, ...repo};
       const repoName = repo.name.split('/')[1];
       const repoPath = `${tmpClonePath}/${repoName}`;
-      spinner.text = `${getMessage()} | searching images ${repo.name} `;
+      spinner.text = `${getMessage()} searching images ${repo.name} `;
       const images = await findFiles(repoPath, repo.name, settings);
-      spinner.text = `${getMessage()} | finding usage ${repo.name}`;
-      const usage = await findUsage(images, repoPath, settings);
+      totalImages += images.length;
+      spinner.text = `${getMessage()} finding usage ${repo.name}`;
+      const usage = await findUsage({
+        images,
+        directory: repoPath,
+        settings,
+        totalImages: () => (totalUsage += 1),
+      });
       totalRepos += 1;
-      totalImages += usage.length;
       return usage;
     });
 

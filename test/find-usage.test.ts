@@ -14,8 +14,8 @@ describe('getFileName', () => {
 
 describe('findUsage', () => {
   it('returns the image info with usage', async () => {
-    const fileInfo = await findUsage(
-      [
+    const fileInfo = await findUsage({
+      images: [
         {
           birthtime: '2021-04-04',
           path: '/image.png',
@@ -23,9 +23,9 @@ describe('findUsage', () => {
           usage: [],
         },
       ],
-      'test/fixtures',
-      {name: 'not-used'},
-    );
+      directory: 'test/fixtures',
+      settings: {name: 'not-used'},
+    });
 
     expect(fileInfo.sort()).toMatchObject([
       {
@@ -53,8 +53,8 @@ describe('findUsage', () => {
   });
 
   it('returns the matching images without extensions and matcher', async () => {
-    const fileInfo = await findUsage(
-      [
+    const fileInfo = await findUsage({
+      images: [
         {
           birthtime: '2021-04-04',
           path: '/image.png',
@@ -62,13 +62,13 @@ describe('findUsage', () => {
           usage: [],
         },
       ],
-      'test/fixtures',
-      {
+      directory: 'test/fixtures',
+      settings: {
         name: 'not-used',
         usageNoExtension: true,
         usageMatchers: ['<img src="'],
       },
-    );
+    });
 
     expect(fileInfo.sort()).toStrictEqual([
       {

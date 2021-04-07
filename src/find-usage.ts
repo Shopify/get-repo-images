@@ -17,11 +17,19 @@ export const getFileName = (
   return usageNoExtension ? fileName.split('.')[0] : fileName;
 };
 
-const findUsage = async (
-  images: FileInformation[],
-  directory: string,
-  settings: RepoSettings,
-): Promise<FileInformation[]> => {
+interface FindUsage {
+  images: FileInformation[];
+  directory: string;
+  settings: RepoSettings;
+  totalImages?: () => void;
+}
+
+const findUsage = async ({
+  images,
+  directory,
+  settings,
+  totalImages = () => {},
+}: FindUsage): Promise<FileInformation[]> => {
   const {usageMatchers, usageNoExtension} = settings;
 
   const files = new Fdir()
@@ -52,6 +60,7 @@ const findUsage = async (
               : true;
 
           if (lineMatches && additionalMatch) {
+            totalImages();
             image.usage.push({file, lineNumber, line: line.trim()});
           }
         });
