@@ -30,19 +30,19 @@ const findUsage = async (
     .crawl(directory)
     .sync() as string[];
 
-  const searchFiles = files.map((file) =>
-    limit(async () => {
+  const searchFiles = files.map((file) => {
+    return limit(async () => {
+      // https://nodejs.org/api/readline.html#readline_example_read_file_stream_line_by_line
       const fileStream = createReadStream(file);
-      const readlines = createInterface({
+      const rl = createInterface({
         input: fileStream,
-        output: process.stdout,
-        terminal: false,
+        crlfDelay: Infinity,
       });
 
       // eslint-disable-next-line no-param-reassign
       const lineCount = ((i = 0) => () => ++i)();
 
-      readlines.on('line', (line, lineNumber = lineCount()) => {
+      rl.on('line', (line, lineNumber = lineCount()) => {
         images.forEach((image) => {
           const fileName = getFileName(image.path, usageNoExtension);
           const lineMatches = line.includes(fileName);
@@ -57,9 +57,9 @@ const findUsage = async (
         });
       });
 
-      await once(readlines, 'close');
-    }),
-  );
+      await once(rl, 'close');
+    });
+  });
 
   await Promise.all(searchFiles);
 

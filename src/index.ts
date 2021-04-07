@@ -56,7 +56,7 @@ const getRepoImages = async (
     const getImages = repos.map(async (repo) => {
       spinner.text = `${getMessage()} | cloning ${repo.name}`;
       const url = getUrl(repo.name, token);
-      await clone([url], tmpClonePath);
+      await clone({repos: [url], destination: tmpClonePath, isTreeless: true});
       const settings = {...defaultSettings, ...repo};
       const repoName = repo.name.split('/')[1];
       const repoPath = `${tmpClonePath}/${repoName}`;
