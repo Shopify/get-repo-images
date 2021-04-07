@@ -3824,10 +3824,10 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-git-clone-repos@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/git-clone-repos/-/git-clone-repos-0.0.3.tgz#d5ca225eabdf2153b9d5ef2f2a1448b4b2ea1ebe"
-  integrity sha512-QbydJP1uUvjdFc8PB2Sh/lLLsW5YNz9aKWD4LM6xYR0FDUzQjS84DVTm2Q3rc2n2wFhvPert8Y+5I+c23ZTjBg==
+git-clone-repos@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/git-clone-repos/-/git-clone-repos-0.0.4.tgz#a39536aa7ec733d8c67a108c0743e517dfa0c21b"
+  integrity sha512-HZPQpB6vB1VvKrLgv0U/0Nd7PBWMBouxvcAH1pb4kQAEFXIUBSJCPX50+s+I5pW/TbdxfJxBYbxC4JkylG5seA==
 
 glob-parent@^5.0.0, glob-parent@^5.1.0:
   version "5.1.2"
