@@ -1,7 +1,7 @@
 {
   "name": "@shopify/get-repo-images",
   "description": "Find images and their usage across multiple repositories",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": "https://github.com/Shopify/get-repo-images.git",
   "author": "Alex Page <alex@alexpage.com.au>",
   "license": "MIT",
@@ -22,6 +22,7 @@
     "fdir": "^5.0.0",
     "git-clone-repos": "^0.0.2",
     "graceful-fs": "^4.2.6",
+    "ora": "^5.4.0",
     "p-limit": "^3.1.0",
     "picomatch": "^2.2.2"
   },

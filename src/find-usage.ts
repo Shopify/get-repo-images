@@ -3,8 +3,11 @@ import {once} from 'events';
 
 import {fdir as Fdir} from 'fdir';
 import {createReadStream} from 'graceful-fs';
+import pLimit from 'p-limit';
 
 import {RepoSettings, FileInformation} from './index';
+
+const limit = pLimit(10);
 
 export const getFileName = (
   path: FileInformation['path'],
@@ -27,34 +30,36 @@ const findUsage = async (
     .crawl(directory)
     .sync() as string[];
 
-  const searchFiles = files.map(async (file) => {
-    const fileStream = createReadStream(file);
-    const readlines = createInterface({
-      input: fileStream,
-      output: process.stdout,
-      terminal: false,
-    });
-
-    // eslint-disable-next-line no-param-reassign
-    const lineCount = ((i = 0) => () => ++i)();
-
-    readlines.on('line', (line, lineNumber = lineCount()) => {
-      images.forEach((image) => {
-        const fileName = getFileName(image.path, usageNoExtension);
-        const lineMatches = line.includes(fileName);
-        const additionalMatch =
-          usageMatchers && usageMatchers.length
-            ? usageMatchers.some((match) => line.includes(match))
-            : true;
-
-        if (lineMatches && additionalMatch) {
-          image.usage.push({file, lineNumber, line: line.trim()});
-        }
+  const searchFiles = files.map((file) =>
+    limit(async () => {
+      const fileStream = createReadStream(file);
+      const readlines = createInterface({
+        input: fileStream,
+        output: process.stdout,
+        terminal: false,
       });
-    });
 
-    await once(readlines, 'close');
-  });
+      // eslint-disable-next-line no-param-reassign
+      const lineCount = ((i = 0) => () => ++i)();
+
+      readlines.on('line', (line, lineNumber = lineCount()) => {
+        images.forEach((image) => {
+          const fileName = getFileName(image.path, usageNoExtension);
+          const lineMatches = line.includes(fileName);
+          const additionalMatch =
+            usageMatchers && usageMatchers.length
+              ? usageMatchers.some((match) => line.includes(match))
+              : true;
+
+          if (lineMatches && additionalMatch) {
+            image.usage.push({file, lineNumber, line: line.trim()});
+          }
+        });
+      });
+
+      await once(readlines, 'close');
+    }),
+  );
 
   await Promise.all(searchFiles);
 
