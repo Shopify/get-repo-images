@@ -1,13 +1,12 @@
-name: get-repo-images
-
-type: node
-
 up:
-  - node:
-      version: v14.16.0
-      yarn: true
+  - homebrew:
+    - golangci/tap/golangci-lint
+  - go:
+      version: 1.16.3
+      modules: true
 
-commands:
-  start: yarn watch
-  test: yarn test
-  build: yarn build
+test:
+  run: go test ./... && go test -race ./...
+
+build:
+  run: go build -o get-repo-images ./src

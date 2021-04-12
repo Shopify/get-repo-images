@@ -1,3 +1,0 @@
-ci:
-  require:
-    - 'Test'

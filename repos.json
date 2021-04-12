@@ -1,0 +1,35 @@
+{
+  "repos": [
+    {"repo": "shopify/shopify"},
+    {"repo": "shopify/web"},
+    {"repo": "shopify/brochure2"},
+    {"repo": "shopify/identity"},
+    {"repo": "shopify/sell-on-amazon"},
+    {"repo": "shopify/buy-button"},
+    {"repo": "shopify/facebook-commerce"},
+    {"repo": "shopify/instagram-commerce"},
+    {"repo": "shopify/shopify_chat"},
+    {"repo": "shopify/shopcodes"},
+    {"repo": "shopify/google-shopping"},
+    {"repo": "shopify/cod-app"},
+    {"repo": "shopify/retail-labels-printer"},
+    {"repo": "shopify/messenger-commerce"},
+    {"repo": "shopify/apple-business-chat-commerce"},
+    {"repo": "shopify/facebook-ads"},
+    {"repo": "shopify/app_orderprinter"},
+    {"repo": "shopify/flow"},
+    {"repo": "shopify/launchpad"},
+    {"repo": "shopify/script-editor"},
+    {
+      "repo": "shopify/android",
+      "extensions": ["webp"],
+      "usageMatchers": ["drawable"],
+      "usageNoExtension": true
+    },
+    {
+      "repo": "shopify/ios",
+      "extensions": ["pdf"],
+      "minSize": 10000
+    }
+  ]
+}

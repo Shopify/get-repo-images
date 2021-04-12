@@ -1,11 +1,6 @@
-node_modules
-.DS_STORE
-yarn-error.log
-
-dist
-
+.DS_Store
 .dev
 .shadowenv.d
-.env
-tsconfig.tsbuildinfo
 .repo
+
+images.json
