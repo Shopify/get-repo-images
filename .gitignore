@@ -4,3 +4,9 @@
 .repo
 
 images.json
+node_modules
+
+.site/public/repo-images
+.site/db.json
+.site/images.json
+repos.json
