@@ -1,4 +1,4 @@
-package findImages
+package main
 
 import (
 	"io/fs"
@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-func FindImages(settings repoSettings, copyImages string) ([]image, error) {
-	var images []image
+func FindImages(settings RepoSettings, generateSite bool) ([]Image, error) {
+	var images []Image
 	repo := settings.Repo
 	extensions := settings.Extensions
 	minSize := settings.MinSize
@@ -36,15 +36,15 @@ func FindImages(settings repoSettings, copyImages string) ([]image, error) {
 
 				var imgPath = strings.Replace(path, repoDir+"/", "", 1)
 
-				if copyImages != "" {
-					err := copy(path, copyImages+"/"+repo+"/"+imgPath)
-					if err != nil {
-						return err
-					}
-				}
+				// if copyImages != "" {
+				// 	err := copy(path, copyImages+"/"+repo+"/"+imgPath)
+				// 	if err != nil {
+				// 		return err
+				// 	}
+				// }
 
 				if minSize < info.Size() {
-					images = append(images, image{
+					images = append(images, Image{
 						Name: fileName,
 						Path: "./" + imgPath,
 						Repo: repo,

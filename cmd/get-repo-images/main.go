@@ -7,9 +7,6 @@ import (
 	"io/ioutil"
 	"os"
 	"sync"
-
-	"github.com/shopify/get-repo-images/internal/clone"
-	"github.com/shopify/get-repo-images/internal/find-images"
 )
 
 type Usage struct {
@@ -36,6 +33,7 @@ type RepoSettings struct {
 }
 
 var tmpDir = "/tmp/get-repo-images/"
+var siteDir = "./site/"
 
 func checkError(err error) {
 	if err == nil {
@@ -51,10 +49,10 @@ func main() {
 	var images []Image
 	settingsFile := flag.String("settings", "repos.json", "a settings file")
 	token := flag.String("token", "", "a token to clone private repositories")
-	copyImages := flag.String("copy", "", "a location to copy the found images")
+	generateSite := flag.Bool("site", false, "create a site to browse images")
 	flag.Parse()
 
-	repos, err := getSettings(*settingsFile)
+	repos, err := GetSettings(*settingsFile)
 	checkError(err)
 
 	var wg sync.WaitGroup
@@ -64,15 +62,15 @@ func main() {
 			defer wg.Done()
 			repo := settings.Repo
 			fmt.Println("Searching " + repo)
-			err := clone.Clone(repo, &tmpDir, *token)
+			err := Clone(repo, tmpDir, *token)
 			checkError(err)
 			fmt.Println("Cloned " + repo)
 
-			foundImages, err := findImages(settings, *copyImages)
+			foundImages, err := FindImages(settings, *generateSite)
 			checkError(err)
 			fmt.Printf("Found %v images in "+repo+"\n", len(foundImages))
 
-			usage, err := findUsage(foundImages, repo)
+			usage, err := FindUsage(foundImages, repo)
 			fmt.Println("Finished search  " + repo)
 			checkError(err)
 

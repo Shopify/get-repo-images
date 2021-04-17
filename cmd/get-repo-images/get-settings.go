@@ -1,4 +1,4 @@
-package getSettings
+package main
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func GetSettings(settingsFile string) ([]repoSettings, error) {
+func GetSettings(settingsFile string) ([]RepoSettings, error) {
 	file, err := os.Open(settingsFile)
 	if err != nil {
 		return nil, err
@@ -18,13 +18,13 @@ func GetSettings(settingsFile string) ([]repoSettings, error) {
 		return nil, err
 	}
 
-	var jsonData map[string][]repoSettings
+	var jsonData map[string][]RepoSettings
 	err = json.Unmarshal([]byte(byteValue), &jsonData)
 	if err != nil {
 		return nil, err
 	}
 
-	var settings []repoSettings
+	var settings []RepoSettings
 	var extensions []string
 	for _, repo := range jsonData["repos"] {
 		if len(repo.Extensions) >= 1 {
@@ -33,7 +33,7 @@ func GetSettings(settingsFile string) ([]repoSettings, error) {
 			extensions = []string{"svg", "png", "jpg", "jpeg", "gif", "webp"}
 		}
 
-		settings = append(settings, repoSettings{
+		settings = append(settings, RepoSettings{
 			Repo:             repo.Repo,
 			Extensions:       extensions,
 			MinSize:          repo.MinSize,

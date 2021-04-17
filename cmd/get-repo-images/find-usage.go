@@ -1,4 +1,4 @@
-package findUsage
+package main
 
 import (
 	"bufio"
@@ -9,7 +9,7 @@ import (
 	"unicode/utf8"
 )
 
-func FindUsage(images []image, repo string) ([]image, error) {
+func FindUsage(images []Image, repo string) ([]Image, error) {
 	var repoDir = tmpDir + repo
 
 	err := filepath.WalkDir(repoDir, func(path string, d fs.DirEntry, err error) error {
@@ -42,7 +42,7 @@ func FindUsage(images []image, repo string) ([]image, error) {
 			// for each image, if line contains image add the lineNumber, line and file to usage
 			for index := range images {
 				if strings.Contains(line, images[index].Name) {
-					images[index].Usage = append(images[index].Usage, usage{
+					images[index].Usage = append(images[index].Usage, Usage{
 						LineNumber: lineNumber,
 						Line:       strings.TrimSpace(line),
 						Path:       strings.Replace("./"+path, repoDir+"/", "", 1),
