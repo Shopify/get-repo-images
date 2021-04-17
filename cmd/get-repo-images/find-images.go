@@ -36,12 +36,12 @@ func FindImages(settings RepoSettings, generateSite bool) ([]Image, error) {
 
 				var imgPath = strings.Replace(path, repoDir+"/", "", 1)
 
-				// if copyImages != "" {
-				// 	err := copy(path, copyImages+"/"+repo+"/"+imgPath)
-				// 	if err != nil {
-				// 		return err
-				// 	}
-				// }
+				if generateSite {
+					err := Copy(path, siteDir+"/"+repo+"/"+imgPath)
+					if err != nil {
+						return err
+					}
+				}
 
 				if minSize < info.Size() {
 					images = append(images, Image{
