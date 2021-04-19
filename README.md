@@ -1,5 +1,7 @@
 # get-repo-images
 
+![docs/terminal.png](A screenshot of the get-repo-images command being ran)
+
 ## About this repo
 
 | Status       | Owner         | Help                                                               |
@@ -14,17 +16,67 @@ The goal of this project is to find images and their usage across multiple repos
 
 ### Install
 
-```
-$ 
+```bash
+$ go get github.com/shopify/get-repo-images
 ```
 
 ### Usage
 
-To get all the images from `alex-page/alexpage.com.au` and `alex-page/harmonograph.art` you can run the following code:
+**One repository**
 
-```js
+Browse, sort and filter images from `alex-page/alexpage.com.au`.
 
+```bash
+get-repo-images --repo alex-page/alexpage.com.au
 ```
+
+**Private repositories**
+
+Add a [personal access token](https://github.com/settings/tokens/new?description=get-repo-images&scopes=repo) for private repositories. Replace `TOKEN` with your token.
+
+```shell
+$ get-repo-images --repo alex-page/alexpage.com.au --token TOKEN
+```
+
+**Multiple repositories**
+
+To get the images from multiple repositories you can create a settings file:
+```shell
+$ get-repo-images --settings get-repo-images.json
+```
+
+```json
+// get-repo-images.json
+{
+  "repos": [
+    {"repo": "alex-page/alexpage.com.au"},
+    {"repo": "alex-page/harmonograph.art"},
+  ]
+}
+```
+
+**Advanced settings**
+
+To get specific image extensions, image sizes you can add more options to the `repos.json`:
+```shell
+$ get-repo-images --settings get-repo-images.json
+```
+
+```json
+// get-repo-images.json
+{
+  "repos": [
+    {
+      "repo": "shopify/android",
+      "minSize": 1000,
+      "extensions": ["webp"],
+      "usageMatchers": ["drawable"],
+      "usageNoExtension": true
+    },
+  ]
+}
+```
+
 
 ## API
 

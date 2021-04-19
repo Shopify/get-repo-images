@@ -8,5 +8,8 @@ up:
 test:
   run: go test ./... && go test -race ./...
 
+benchmark:
+  run: go test ./... -bench
+
 build:
   run: go build -o get-repo-images ./src

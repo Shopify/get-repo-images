@@ -8,12 +8,12 @@ import (
 
 func getSettings(repoFlag string, settingsFile string) ([]RepoSettings, error) {
 	var settings []RepoSettings
-	extensions := []string{"svg", "png", "jpg", "jpeg", "gif", "webp"}
+	defaultExtensions := []string{"svg", "png", "jpg", "jpeg", "gif", "webp"}
 
 	if repoFlag != "" {
 		settings := append(settings, RepoSettings{
 			Repo:       repoFlag,
-			Extensions: extensions,
+			Extensions: defaultExtensions,
 		})
 
 		return settings, nil
@@ -37,9 +37,9 @@ func getSettings(repoFlag string, settingsFile string) ([]RepoSettings, error) {
 	}
 
 	for _, repo := range jsonData["repos"] {
-		var extensions []string
-		if len(repo.Extensions) >= 1 {
-			extensions = repo.Extensions
+		extensions := repo.Extensions
+		if len(extensions) == 0 {
+			extensions = defaultExtensions
 		}
 
 		settings = append(settings, RepoSettings{

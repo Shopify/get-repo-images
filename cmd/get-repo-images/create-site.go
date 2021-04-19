@@ -1,8 +1,8 @@
 package main
 
 import (
+	"errors"
 	"fmt"
-	"os"
 	"os/exec"
 )
 
@@ -22,17 +22,27 @@ func createSite(data Data) error {
 		return err
 	}
 
-	cmd := exec.Command("npm", "install")
-	cmd.Dir = siteDir
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	err = cmd.Run()
+	_, err = exec.LookPath("node")
 	if err != nil {
-		return err
+		return errors.New("didn't find 'nodejs' executable")
 	}
 
-	fmt.Println("Site is built and ready")
-	fmt.Println("npx serve ./site/.next/")
+	commands := [][]string{
+		{"npm", "install"},
+		{"node_modules/.bin/next", "start"},
+	}
+
+	fmt.Println("Your site is building, please wait...")
+
+	for index, command := range commands {
+		cmd := exec.Command(command[0], command[index+1:]...)
+		cmd.Dir = siteDir
+		err = cmd.Run()
+		if err != nil {
+			return err
+		}
+		fmt.Println("Browse, sort and filter your images http://localhost:3000")
+	}
 
 	return nil
 }

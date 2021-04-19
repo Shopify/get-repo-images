@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -45,11 +46,16 @@ var doneCount = 0
 func main() {
 	var images []Image
 	repoFlag := flag.String("repo", "", "the repo to search")
-	settingsFile := flag.String("settings", "repos.json", "a settings file")
+	settingsFile := flag.String("settings", "", "a settings file")
 	token := flag.String("token", "", "a token to clone private repositories")
 	siteFlag := flag.Bool("site", true, "create a site to browse images")
 	jsonFlag := flag.Bool("json", false, "create a JSON file of image data")
 	flag.Parse()
+
+	if len(*repoFlag) == 0 && len(*settingsFile) == 0 {
+		err := errors.New("make sure a --repo or --settings is provided")
+		checkError(err)
+	}
 
 	os.RemoveAll(imgDir)
 	os.RemoveAll(siteDir)
@@ -84,7 +90,7 @@ func main() {
 			imageCount += 1
 			printStatus(remainingRepos, totalRepos)
 
-			usage, err := findUsage(foundImages, repo)
+			usage, err := findUsage(foundImages, settings)
 			checkError(err)
 
 			images = append(images, usage...)
@@ -101,7 +107,14 @@ func main() {
 		}(settings)
 	}
 	wg.Wait()
-	fmt.Println()
+
+	if len(images) == 0 {
+		fmt.Println("No images found")
+		return
+	} else {
+		fmt.Printf("\033[2K\r")
+		fmt.Println("Search complete found", len(images), "images")
+	}
 
 	data := Data{allRepos, images}
 

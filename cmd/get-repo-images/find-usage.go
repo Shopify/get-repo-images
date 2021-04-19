@@ -9,8 +9,8 @@ import (
 	"unicode/utf8"
 )
 
-func findUsage(images []Image, repo string) ([]Image, error) {
-	var repoDir = tmpDir + repo
+func findUsage(images []Image, settings RepoSettings) ([]Image, error) {
+	var repoDir = tmpDir + settings.Repo
 
 	err := filepath.WalkDir(repoDir, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
@@ -23,6 +23,11 @@ func findUsage(images []Image, repo string) ([]Image, error) {
 		}
 
 		if !fileStats.Mode().IsRegular() {
+			return nil
+		}
+
+		// Ignore hidden directory like .git
+		if strings.HasPrefix(path, ".") {
 			return nil
 		}
 
@@ -46,7 +51,25 @@ func findUsage(images []Image, repo string) ([]Image, error) {
 
 			// for each image, if line contains image add the lineNumber, line and file to usage
 			for index := range images {
-				if strings.Contains(line, images[index].Name) {
+				imageName := images[index].Name
+				if settings.UsageNoExtension {
+					imageName = strings.Split(imageName, ".")[0]
+				}
+
+				// Check if the line contains the image name and any matchers
+				lineMatches := strings.Contains(line, imageName)
+				if len(settings.UsageMatchers) != 0 {
+					containsMatcher := true
+					for _, matcher := range settings.UsageMatchers {
+						if !strings.Contains(line, matcher) {
+							containsMatcher = false
+						}
+					}
+
+					lineMatches = lineMatches && containsMatcher
+				}
+
+				if lineMatches {
 					images[index].Usage = append(images[index].Usage, Usage{
 						LineNumber: lineNumber,
 						Line:       strings.TrimSpace(line),
