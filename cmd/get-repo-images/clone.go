@@ -2,19 +2,50 @@ package main
 
 import (
 	"github.com/go-git/go-git/v5"
+	"github.com/go-git/go-git/v5/plumbing/transport"
+	"github.com/go-git/go-git/v5/plumbing/transport/client"
 )
 
-func Clone(repo string, tmpDir string, token string) error {
-	repoDir := tmpDir + repo
+func clone(repo string, tmpDir string, token string) error {
 	url := "https://github.com/" + repo + ".git"
 	if len(token) > 0 {
 		url = "https://" + token + "@github.com/" + repo + ".git"
 	}
 
-	_, err := git.PlainClone(repoDir, false, &git.CloneOptions{
-		URL:          url,
-		SingleBranch: true,
-		Depth:        1,
+	// Get the HEAD reference for non master branches
+	// https://github.com/go-git/go-git/issues/249#issuecomment-772354474
+	e, err := transport.NewEndpoint(url)
+	if err != nil {
+		return err
+	}
+
+	cli, err := client.NewClient(e)
+	if err != nil {
+		return err
+	}
+
+	s, err := cli.NewUploadPackSession(e, nil)
+	if err != nil {
+		return err
+	}
+
+	info, err := s.AdvertisedReferences()
+	if err != nil {
+		return err
+	}
+
+	refs, err := info.AllReferences()
+	if err != nil {
+		return err
+	}
+
+	headReference := refs["HEAD"].Target()
+
+	_, err = git.PlainClone(tmpDir, false, &git.CloneOptions{
+		URL:           url,
+		SingleBranch:  true,
+		Depth:         1,
+		ReferenceName: headReference,
 	})
 
 	if err != nil {

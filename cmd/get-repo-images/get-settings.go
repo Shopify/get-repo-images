@@ -6,7 +6,19 @@ import (
 	"os"
 )
 
-func GetSettings(settingsFile string) ([]RepoSettings, error) {
+func getSettings(repoFlag string, settingsFile string) ([]RepoSettings, error) {
+	var settings []RepoSettings
+	extensions := []string{"svg", "png", "jpg", "jpeg", "gif", "webp"}
+
+	if repoFlag != "" {
+		settings := append(settings, RepoSettings{
+			Repo:       repoFlag,
+			Extensions: extensions,
+		})
+
+		return settings, nil
+	}
+
 	file, err := os.Open(settingsFile)
 	if err != nil {
 		return nil, err
@@ -24,13 +36,10 @@ func GetSettings(settingsFile string) ([]RepoSettings, error) {
 		return nil, err
 	}
 
-	var settings []RepoSettings
-	var extensions []string
 	for _, repo := range jsonData["repos"] {
+		var extensions []string
 		if len(repo.Extensions) >= 1 {
 			extensions = repo.Extensions
-		} else {
-			extensions = []string{"svg", "png", "jpg", "jpeg", "gif", "webp"}
 		}
 
 		settings = append(settings, RepoSettings{

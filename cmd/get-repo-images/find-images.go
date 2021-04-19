@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func FindImages(settings RepoSettings, generateSite bool) ([]Image, error) {
+func findImages(settings RepoSettings, siteFlag bool) ([]Image, error) {
 	var images []Image
 	repo := settings.Repo
 	extensions := settings.Extensions
@@ -36,21 +36,21 @@ func FindImages(settings RepoSettings, generateSite bool) ([]Image, error) {
 
 				var imgPath = strings.Replace(path, repoDir+"/", "", 1)
 
-				if generateSite {
-					err := Copy(path, siteDir+"/"+repo+"/"+imgPath)
-					if err != nil {
-						return err
-					}
-				}
-
 				if minSize < info.Size() {
 					images = append(images, Image{
 						Name: fileName,
-						Path: "./" + imgPath,
+						Path: imgPath,
 						Repo: repo,
 						Size: info.Size(),
 						Date: info.ModTime().String(),
 					})
+
+					if siteFlag {
+						err := copy(path, tmpDir+"images/"+repo+"/"+imgPath)
+						if err != nil {
+							return err
+						}
+					}
 				}
 			}
 		}

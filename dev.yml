@@ -1,4 +1,6 @@
 up:
+  - node:
+      version: v14.16.0
   - homebrew:
     - golangci/tap/golangci-lint
   - go:

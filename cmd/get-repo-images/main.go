@@ -1,10 +1,8 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"sync"
 )
@@ -32,28 +30,42 @@ type RepoSettings struct {
 	UsageNoExtension bool     // search usage without extension
 }
 
-var tmpDir = "/tmp/get-repo-images/"
-var siteDir = "./site/"
-
-func checkError(err error) {
-	if err == nil {
-		return
-	}
-
-	os.RemoveAll(tmpDir)
-	fmt.Println(err)
-	os.Exit(1)
+type Data struct {
+	Tags   []string `json:"tags"`   // the repos found
+	Images []Image  `json:"images"` // the images found
 }
+
+var tmpDir = "/tmp/get-repo-images/"
+var siteDir = "./.site/"
+var imgDir = siteDir + "public/repo-images/"
+var clonedCount = 0
+var imageCount = 0
+var doneCount = 0
 
 func main() {
 	var images []Image
+	repoFlag := flag.String("repo", "", "the repo to search")
 	settingsFile := flag.String("settings", "repos.json", "a settings file")
 	token := flag.String("token", "", "a token to clone private repositories")
-	generateSite := flag.Bool("site", false, "create a site to browse images")
+	siteFlag := flag.Bool("site", true, "create a site to browse images")
+	jsonFlag := flag.Bool("json", false, "create a JSON file of image data")
 	flag.Parse()
 
-	repos, err := GetSettings(*settingsFile)
+	os.RemoveAll(imgDir)
+	os.RemoveAll(siteDir)
+	os.RemoveAll(tmpDir)
+
+	repos, err := getSettings(*repoFlag, *settingsFile)
 	checkError(err)
+	totalRepos := len(repos)
+	var remainingRepos []string
+	var allRepos []string
+	for _, repo := range repos {
+		remainingRepos = append(remainingRepos, repo.Repo)
+		allRepos = append(allRepos, repo.Repo)
+	}
+
+	printStatus(remainingRepos, totalRepos)
 
 	var wg sync.WaitGroup
 	for _, settings := range repos {
@@ -61,26 +73,46 @@ func main() {
 		go func(settings RepoSettings) {
 			defer wg.Done()
 			repo := settings.Repo
-			fmt.Println("Searching " + repo)
-			err := Clone(repo, tmpDir, *token)
-			checkError(err)
-			fmt.Println("Cloned " + repo)
 
-			foundImages, err := FindImages(settings, *generateSite)
+			err := clone(repo, tmpDir+repo, *token)
 			checkError(err)
-			fmt.Printf("Found %v images in "+repo+"\n", len(foundImages))
+			clonedCount += 1
+			printStatus(remainingRepos, totalRepos)
 
-			usage, err := FindUsage(foundImages, repo)
-			fmt.Println("Finished search  " + repo)
+			foundImages, err := findImages(settings, *siteFlag)
+			checkError(err)
+			imageCount += 1
+			printStatus(remainingRepos, totalRepos)
+
+			usage, err := findUsage(foundImages, repo)
 			checkError(err)
 
 			images = append(images, usage...)
+
+			// Remove the repo from remaining repos
+			for index, remainingRepo := range remainingRepos {
+				if remainingRepo == repo {
+					remainingRepos = append(remainingRepos[:index], remainingRepos[index+1:]...)
+				}
+			}
+
+			doneCount += 1
+			printStatus(remainingRepos, totalRepos)
 		}(settings)
 	}
 	wg.Wait()
+	fmt.Println()
 
-	os.RemoveAll(tmpDir)
+	data := Data{allRepos, images}
 
-	file, _ := json.MarshalIndent(images, "", " ")
-	_ = ioutil.WriteFile("images.json", file, 0644)
+	if *siteFlag {
+		err := createSite(data)
+		checkError(err)
+	}
+
+	if *jsonFlag {
+		fmt.Println("Creating JSON file")
+		err := WriteJsonFile(data, "images.json")
+		checkError(err)
+	}
 }

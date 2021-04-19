@@ -9,7 +9,7 @@ import (
 	"unicode/utf8"
 )
 
-func FindUsage(images []Image, repo string) ([]Image, error) {
+func findUsage(images []Image, repo string) ([]Image, error) {
 	var repoDir = tmpDir + repo
 
 	err := filepath.WalkDir(repoDir, func(path string, d fs.DirEntry, err error) error {
@@ -17,7 +17,12 @@ func FindUsage(images []Image, repo string) ([]Image, error) {
 			return err
 		}
 
-		if d.IsDir() {
+		fileStats, err := os.Lstat(path)
+		if err != nil {
+			return err
+		}
+
+		if !fileStats.Mode().IsRegular() {
 			return nil
 		}
 
@@ -45,7 +50,7 @@ func FindUsage(images []Image, repo string) ([]Image, error) {
 					images[index].Usage = append(images[index].Usage, Usage{
 						LineNumber: lineNumber,
 						Line:       strings.TrimSpace(line),
-						Path:       strings.Replace("./"+path, repoDir+"/", "", 1),
+						Path:       strings.Replace(path, repoDir+"/", "", 1),
 					})
 				}
 			}

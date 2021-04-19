@@ -2,11 +2,38 @@ package main
 
 import (
 	"io"
+	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
-func Copy(src, dst string) error {
+func copyDir(src string, dst string) error {
+	err := filepath.WalkDir(src, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if d.IsDir() {
+			return nil
+		}
+
+		err = copy(path, dst+strings.Replace(path, src, "", 1))
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func copy(src string, dst string) error {
 	source, err := os.Open(src)
 	if err != nil {
 		return err
