@@ -1,9 +1,8 @@
 {
   "name": "get-repo-images",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "description": "An extremely fast repository crawler to find images across multiple repos",
   "scripts": {
-    "prepack": "go build ./...",
     "postinstall": "node postinstall.js"
   },
   "author": {
@@ -12,6 +11,11 @@
     "url": "http://alexpage.com.au"
   },
   "bin": "./get-repo-images",
-  "files": ["postinstall.js"],
-  "license": "MIT"
+  "files": [
+    "postinstall.js"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "got": "^11.8.2"
+  }
 }

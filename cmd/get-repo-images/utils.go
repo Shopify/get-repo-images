@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -19,15 +20,16 @@ func checkError(err error) {
 	os.Exit(1)
 }
 
-func printStatus(remainingRepos []string, totalRepos int) {
-	fmt.Printf("\033[2K\r") // clear the previous line
-	fmt.Printf("Cloned %d/%d", clonedCount, totalRepos)
-	fmt.Printf(" Images %d/%d", imageCount, totalRepos)
-	fmt.Printf(" Usage %d/%d", doneCount, totalRepos)
+func getStatus(remainingRepos []string, totalRepos int) string {
+	status := " cloned (" + strconv.Itoa(clonedCount) + "/" + strconv.Itoa(totalRepos) + ")"
+	status += " images (" + strconv.Itoa(clonedCount) + "/" + strconv.Itoa(totalRepos) + ")"
+	status += " usage (" + strconv.Itoa(doneCount) + "/" + strconv.Itoa(totalRepos) + ")"
 
 	if len(remainingRepos) <= 3 && len(remainingRepos) != 0 {
-		fmt.Printf(" waiting for %s", strings.Join(remainingRepos, " "))
+		status += " waiting for " + strings.Join(remainingRepos, " ")
 	}
+
+	return status
 }
 
 func writeJsonFile(jsonRaw interface{}, dest string) error {

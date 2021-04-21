@@ -82,7 +82,7 @@ We welcome contributions to this repo, both in the content and the codebase, and
 
 **Release a new version**
 
-Push the latest changes into the main branch then [create a release](https://github.com/Shopify/get-repo-images/releases/new?target=main).
+Update the `package.json` file to the next [semantic version](https://semver.org). Push the changes to GitHub and then [create a release](https://github.com/Shopify/get-repo-images/releases/new?target=main).
 
 ## Technical details
 

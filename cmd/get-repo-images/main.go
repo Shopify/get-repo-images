@@ -6,6 +6,9 @@ import (
 	"fmt"
 	"os"
 	"sync"
+	"time"
+
+	"github.com/briandowns/spinner"
 )
 
 type Usage struct {
@@ -73,7 +76,10 @@ func main() {
 		allRepos = append(allRepos, repo.Repo)
 	}
 
-	printStatus(remainingRepos, totalRepos)
+	spinnerIndicator := spinner.New(spinner.CharSets[1], 100*time.Millisecond)
+	spinnerIndicator.Start()
+	spinnerIndicator.Color("bgWhite", "blue")
+	spinnerIndicator.Suffix = getStatus(remainingRepos, totalRepos)
 
 	var wg sync.WaitGroup
 	for _, settings := range repos {
@@ -85,12 +91,12 @@ func main() {
 			err := clone(repo, tmpDir+repo, *token)
 			checkError(err)
 			clonedCount += 1
-			printStatus(remainingRepos, totalRepos)
+			spinnerIndicator.Suffix = getStatus(remainingRepos, totalRepos)
 
 			foundImages, err := findImages(settings, *siteFlag)
 			checkError(err)
 			imageCount += 1
-			printStatus(remainingRepos, totalRepos)
+			spinnerIndicator.Suffix = getStatus(remainingRepos, totalRepos)
 
 			usage, err := findUsage(foundImages, settings)
 			checkError(err)
@@ -105,10 +111,12 @@ func main() {
 			}
 
 			doneCount += 1
-			printStatus(remainingRepos, totalRepos)
+			spinnerIndicator.Suffix = getStatus(remainingRepos, totalRepos)
 		}(settings)
 	}
 	wg.Wait()
+
+	spinnerIndicator.Stop()
 
 	if len(images) == 0 {
 		fmt.Println("No images found")
