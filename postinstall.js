@@ -49,9 +49,14 @@ function extractFile(buffer, file) {
 }
 
 (async () => {
-  const outFile = process.cwd() + "/get-repo-images";
-  const fileUrl = `${tagUrl}-${fileMap[platformKey]}`;
-  const fileBuffer = await got(fileUrl).buffer();
-  const execBuffer = extractFile(fileBuffer, name);
-  fs.writeFileSync(outFile, execBuffer, { mode: 0o755 });
+  try {
+    const outFile = process.cwd() + "/get-repo-images";
+    const fileUrl = `${tagUrl}-${fileMap[platformKey]}`;
+    console.log(outFile, fileUrl);
+    const fileBuffer = await got(fileUrl).buffer();
+    const execBuffer = extractFile(fileBuffer, name);
+    fs.writeFileSync(outFile, execBuffer, { mode: 0o755 });
+  } catch (error) {
+    throw new Error(error)
+  }
 })();

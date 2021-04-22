@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="example.png" alt="A screenshot of the get-repo-images command being ran" width="690px">
+  <img src="https://github.com/Shopify/get-repo-images/blob/main/example.png" alt="A screenshot of the get-repo-images command being ran" width="690px">
 </p>
 
 <p align="center">
