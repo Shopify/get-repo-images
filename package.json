@@ -1,20 +1,21 @@
 {
   "name": "get-repo-images",
-  "version": "0.1.0-alpha.4",
+  "version": "0.1.0-alpha.5",
   "description": "An extremely fast repository crawler to find images across multiple repos",
+  "bin": {
+    "get-repo-images": "./npm/run.js"
+  },
   "scripts": {
-    "postinstall": "node postinstall.js"
+    "postinstall": "node ./npm/install.js",
+    "preuninstall": "node ./npm/uninstall.js"
   },
   "license": "MIT",
-  "dependencies": {
-    "got": "^11.8.2"
-  },
   "files": [
-    "postinstall.js"
+    "npm"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shopify/get-repo-images.git"
+    "url": "https://github.com/shopify/get-repo-images"
   },
   "bugs": {
     "url": "https://github.com/alex-page/harmonograph-xy/issues"
@@ -23,5 +24,8 @@
     "name": "Alex Page",
     "email": "alex@alexpage.com.au",
     "url": "http://alexpage.com.au"
+  },
+  "dependencies": {
+    "@cloudflare/binary-install": "^0.2.0"
   }
 }
