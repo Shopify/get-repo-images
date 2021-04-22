@@ -52,7 +52,7 @@ console.log('running post install');
 
 (async () => {
   try {
-    const outFile = process.cwd() + "/get-repo-images";
+    const outFile = process.cwd() + "/.bin/get-repo-images";
     const fileUrl = `${tagUrl}-${fileMap[platformKey]}`;
     console.log(outFile, fileUrl);
     const fileBuffer = await got(fileUrl).buffer();

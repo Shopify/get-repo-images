@@ -2,7 +2,6 @@
   "name": "get-repo-images",
   "version": "0.1.0-alpha.4",
   "description": "An extremely fast repository crawler to find images across multiple repos",
-  "bin": "./get-repo-images",
   "scripts": {
     "postinstall": "node postinstall.js"
   },
