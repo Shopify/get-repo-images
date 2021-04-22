@@ -48,6 +48,8 @@ function extractFile(buffer, file) {
   throw new Error(`Could not find ${JSON.stringify(file)} in archive`);
 }
 
+console.log('running post install');
+
 (async () => {
   try {
     const outFile = process.cwd() + "/get-repo-images";
