@@ -31,25 +31,31 @@ if (!platform) {
 }
 
 const install = async () => {
-  if (fs.existsSync(binDir)) {
-    rimraf.sync(binDir);
+  try {
+    if (fs.existsSync(binDir)) {
+      rimraf.sync(binDir);
+    }
+    fs.mkdirSync(binDir, { recursive: true });
+    const url = `${repository.url}/releases/download/v${version}/${platform}.tar.gz`;
+    console.log('Downloading binary: ', url);
+    await pipeline(got.stream(url), tar.x({ C: binDir }));
+  } catch (error){
+    console.error(error);
+    process.exit(1);
   }
-  fs.mkdirSync(binDir, { recursive: true });
-  const url = `${repository.url}/releases/download/v${version}/${platform}.tar.gz`;
-  console.log("downloading binary", url);
-  await pipeline(got.stream(url), tar.x({ C: binDir }));
 };
 
 const run = () => {
   const [, , ...args] = process.argv;
   const options = { cwd: process.cwd(), stdio: "inherit" };
-  const result = childProcess.spawnSync(binaryFile, args, options);
+  const {error, status} = childProcess.spawnSync(binaryFile, args, options);
 
-  if (result.error) {
-    error(result.error);
+  if (error) {
+    console.error(error);
+    process.exit(1);
   }
 
-  process.exit(result.status);
+  process.exit(status);
 };
 
 const uninstall = () => {

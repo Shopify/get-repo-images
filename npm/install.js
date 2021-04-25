@@ -1,4 +1,7 @@
 #!/usr/bin/env node
 
 const {install} = require('./get-binary');
-install();
+
+(async () => {
+	await install();
+})();

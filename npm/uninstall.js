@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
-const {run} = require('./get-binary');
-run();
+const {uninstall} = require('./get-binary');
+uninstall();
