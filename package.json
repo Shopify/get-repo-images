@@ -1,10 +1,8 @@
 {
   "name": "get-repo-images",
-  "version": "0.1.0-alpha.8",
+  "version": "0.1.0-alpha.9",
   "description": "An extremely fast repository crawler to find images across multiple repos",
-  "bin": {
-    "get-repo-images": "./npm/run.js"
-  },
+  "bin": "./npm/run.js",
   "scripts": {
     "postinstall": "node ./npm/install.js",
     "preuninstall": "node ./npm/uninstall.js"
@@ -18,7 +16,7 @@
     "url": "https://github.com/shopify/get-repo-images"
   },
   "bugs": {
-    "url": "https://github.com/alex-page/harmonograph-xy/issues"
+    "url": "https://github.com/shopify/get-repo-images/issues"
   },
   "author": {
     "name": "Alex Page",
@@ -27,6 +25,7 @@
   },
   "dependencies": {
     "got": "^11.8.2",
+    "rimraf": "^3.0.2",
     "tar": "^6.1.0"
   }
 }

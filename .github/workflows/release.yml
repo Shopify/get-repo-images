@@ -23,7 +23,7 @@ jobs:
         env:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
-      - run: ls
+      # get-repo-images or get-repo-images.exe
       - run: tar -czvf ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz get-repo-images*
       - name: Upload ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz to release
         uses: Shopify/upload-to-release@master
