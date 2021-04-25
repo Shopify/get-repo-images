@@ -4,7 +4,7 @@ on:
 
 jobs:
   releases-matrix:
-    name: Release Go Binary
+    name: Upload Go Binary
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -16,13 +16,23 @@ jobs:
             goos: darwin
     steps:
       - uses: actions/checkout@v2
-      - uses: wangyoucao577/go-release-action@v1.17
+      - uses: actions/setup-go@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          goos: ${{ matrix.goos }}
-          goarch: ${{ matrix.goarch }}
-          project_path: "./cmd/get-repo-images"
-          binary_name: "get-repo-images"
+          go-version: '^1.16'
+      - run: mkdir get-repo-images
+      - run: go build ../...
+        working-directory: get-repo-images
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+      - run: tar -czvf ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz ./get-repo-images/
+      - name: Upload ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz to release
+        uses: Shopify/upload-to-release@master
+        with:
+          name: ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
+          path: ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          content-type: text/plain # Optional
 
   publish-npm:
     name: Publish NPM Package

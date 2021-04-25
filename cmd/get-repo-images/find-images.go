@@ -25,7 +25,7 @@ func findImages(settings RepoSettings, siteFlag bool) ([]Image, error) {
 
 		for _, extension := range extensions {
 			var pattern = "*." + extension
-			var fileName = filepath.Base(path)
+			var fileName = strings.ToLower(filepath.Base(path))
 			if matched, err := filepath.Match(pattern, fileName); err != nil {
 				return err
 			} else if matched {
