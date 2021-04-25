@@ -27,7 +27,7 @@ const install = async () => {
 
 	const tStream = tar.t({
 		sync: true,
-		onentry: entry => fs.writeFileSync('test', entry),
+		onentry: entry => fs.writeFileSync(name, entry),
 	})
 	tStream.end(fileBuffer);
 
