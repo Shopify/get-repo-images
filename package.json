@@ -1,6 +1,6 @@
 {
   "name": "get-repo-images",
-  "version": "0.1.0-alpha.7",
+  "version": "0.1.0-alpha.8",
   "description": "An extremely fast repository crawler to find images across multiple repos",
   "bin": {
     "get-repo-images": "./npm/run.js"
@@ -26,6 +26,7 @@
     "url": "http://alexpage.com.au"
   },
   "dependencies": {
-    "@cloudflare/binary-install": "^0.2.0"
+    "got": "^11.8.2",
+    "tar": "^6.1.0"
   }
 }
