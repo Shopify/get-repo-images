@@ -10,7 +10,8 @@ const childProcess = require("child_process");
 
 const pipeline = promisify(stream.pipeline);
 
-const { version, name, repository } = require("../package.json");
+const { version, name } = require("../package.json");
+const repositoryUrl = "https://github.com/shopify/get-repo-images";
 const rimraf = require("rimraf");
 
 const platformFiles = {
@@ -36,10 +37,10 @@ const install = async () => {
       rimraf.sync(binDir);
     }
     fs.mkdirSync(binDir, { recursive: true });
-    const url = `${repository.url}/releases/download/v${version}/${platform}.tar.gz`;
-    console.log('Downloading binary: ', url);
+    const url = `${repositoryUrl}/releases/download/v${version}/${platform}.tar.gz`;
+    console.log("Downloading binary: ", url);
     await pipeline(got.stream(url), tar.x({ C: binDir }));
-  } catch (error){
+  } catch (error) {
     console.error(error);
     process.exit(1);
   }
@@ -48,7 +49,7 @@ const install = async () => {
 const run = () => {
   const [, , ...args] = process.argv;
   const options = { cwd: process.cwd(), stdio: "inherit" };
-  const {error, status} = childProcess.spawnSync(binaryFile, args, options);
+  const { error, status } = childProcess.spawnSync(binaryFile, args, options);
 
   if (error) {
     console.error(error);

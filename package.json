@@ -1,6 +1,6 @@
 {
   "name": "get-repo-images",
-  "version": "0.1.0-alpha.11",
+  "version": "0.1.0-alpha.12",
   "description": "An extremely fast repository crawler to find images across multiple repos",
   "bin": "./npm/run.js",
   "scripts": {
