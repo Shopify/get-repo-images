@@ -11,9 +11,11 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: '^1.16'
+      - run: echo "GOCACHE=${{go env GOCACHE}}" >> $GITHUB_ENV
       - uses: actions/setup-node@v2
         with:
           registry-url: 'https://registry.npmjs.org'
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          GOCACHE: ${{ env.GOCACHE }}
