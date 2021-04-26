@@ -1,16 +1,13 @@
 {
   "name": "get-repo-images",
-  "version": "0.1.0-alpha.13",
+  "version": "0.1.0-alpha.14",
   "description": "An extremely fast repository crawler to find images across multiple repos",
+  "license": "MIT",
+  "files": ["npm", "bin"],
   "bin": "./npm/run.js",
   "scripts": {
-    "postinstall": "node ./npm/install.js",
-    "preuninstall": "node ./npm/uninstall.js"
+    "prepack": "node ./npm/build.js"
   },
-  "license": "MIT",
-  "files": [
-    "npm"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/shopify/get-repo-images"
