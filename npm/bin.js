@@ -2,7 +2,7 @@
 
 const os = require("os");
 const { spawnSync, execSync } = require("child_process");
-const { mkdirSync } = require("fs");
+const { mkdirSync, rmdirSync } = require("fs");
 const { join } = require("path");
 
 const platformFiles = {
@@ -20,6 +20,7 @@ const getFileName = (p) => (p.includes("windows") ? `${p}.exe` : p);
 
 const build = () => {
   const buildDir = join(process.cwd(), "/" + binDir);
+  rmdirSync(buildDir, {recursive: true});
   mkdirSync(buildDir);
 
   Object.values(platformFiles).forEach(p => {
