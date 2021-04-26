@@ -18,11 +18,11 @@ const currentPlatform = platformFiles[`${process.platform} ${os.arch()}`];
 
 const getFileName = (p) => (p.includes("windows") ? `${p}.exe` : p);
 
-const build = async () => {
+const build = () => {
   const buildDir = join(process.cwd(), "/" + binDir);
   mkdirSync(buildDir);
 
-  for (const p of Object.values(platformFiles)) {
+  Object.values(platformFiles).forEach(p => {
     const [platform, arch] = p.split("-");
     const options = {
       cwd: buildDir,
@@ -36,9 +36,8 @@ const build = async () => {
     };
 
     const fileName = getFileName(p);
-
     execSync(`go build -o ${fileName} ../...`, options);
-  }
+  });
 };
 
 const run = () => {
