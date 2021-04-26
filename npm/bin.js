@@ -27,6 +27,10 @@ const build = () => {
     const options = {
       cwd: buildDir,
       env: {
+        GOPATH: process.env.GOPATH,
+        GOCACHE: process.env.GOCACHE,
+        GOROOT: process.env.GOROOT,
+        HOME: process.env.HOME,
         GOOS: platform,
         GOARCH: arch,
       },
