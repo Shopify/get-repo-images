@@ -1,6 +1,6 @@
 {
   "name": "get-repo-images",
-  "version": "0.1.0-alpha.12",
+  "version": "0.1.0-alpha.13",
   "description": "An extremely fast repository crawler to find images across multiple repos",
   "bin": "./npm/run.js",
   "scripts": {
@@ -22,10 +22,5 @@
     "name": "Alex Page",
     "email": "alex@alexpage.com.au",
     "url": "http://alexpage.com.au"
-  },
-  "dependencies": {
-    "got": "^11.8.2",
-    "rimraf": "^3.0.2",
-    "tar": "^6.1.0"
   }
 }
