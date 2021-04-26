@@ -3,7 +3,7 @@
 const os = require("os");
 const { spawnSync, execSync } = require("child_process");
 const { mkdirSync } = require("fs");
-const {join} = require("path");
+const { join } = require("path");
 
 const platformFiles = {
   "darwin x64": "darwin-amd64",
@@ -13,18 +13,19 @@ const platformFiles = {
   "win32 ia32": "windows-386",
 };
 
-const binDir = join(process.cwd() + "/bin");
+const binDir = "bin";
 const currentPlatform = platformFiles[`${process.platform} ${os.arch()}`];
 
-const getFileName = p => p.includes("windows") ? `${p}.exe` : p;
+const getFileName = (p) => (p.includes("windows") ? `${p}.exe` : p);
 
 const build = async () => {
-  mkdirSync(binDir);
+  const buildDir = join(process.cwd(), "/" + binDir);
+  mkdirSync(buildDir);
 
   for (const p of Object.values(platformFiles)) {
     const [platform, arch] = p.split("-");
     const options = {
-      cwd: binDir,
+      cwd: buildDir,
       env: {
         GOPATH: process.env.GOPATH,
         GOCACHE: process.env.GOCACHE,
@@ -44,12 +45,10 @@ const run = () => {
   if (!currentPlatform) {
     throw new Error(`Unsupported platform ${currentPlatform}`);
   }
-
-  const binFile = binDir + "/" + getFileName(currentPlatform);
+  const runFile = join(__dirname, "../" + binDir, getFileName(currentPlatform));
 
   const [, , ...args] = process.argv;
-  const options = { cwd: process.cwd(), stdio: "inherit" };
-  const { error, status } = spawnSync(binFile, args, options);
+  const { error, status } = spawnSync(runFile, args, { stdio: "inherit" });
   if (error) {
     console.error(error);
     process.exit(1);
