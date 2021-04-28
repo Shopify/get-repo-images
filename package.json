@@ -2,15 +2,18 @@
   "name": "get-repo-images",
   "version": "v0.1.1-alpha.1",
   "description": "An extremely fast repository crawler to find images across multiple repos",
-  "bin": "./npm/run.js",
-  "scripts": {
-    "postinstall": "node ./npm/install.js",
-    "preuninstall": "node ./npm/uninstall.js"
-  },
   "license": "MIT",
   "files": [
-    "npm"
+    "npm",
+    "bin"
   ],
+  "bin": "./npm/run.js",
+  "simple-git-hooks": {
+    "pre-commit": "node ./npm/build.js && git add ./bin"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/shopify/get-repo-images"
@@ -24,8 +27,6 @@
     "url": "http://alexpage.com.au"
   },
   "dependencies": {
-    "got": "^11.8.2",
-    "rimraf": "^3.0.2",
-    "tar": "^6.1.0"
+    "simple-git-hooks": "^2.4.1"
   }
 }
