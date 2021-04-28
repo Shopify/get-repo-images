@@ -1,4 +1,3 @@
 #!/usr/bin/env node
-
-const {install} = require('./get-binary');
+const { install } = require("./exec");
 install();

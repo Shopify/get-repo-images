@@ -4,7 +4,7 @@ on:
 
 jobs:
   releases-matrix:
-    name: Upload Go Binary
+    name: Upload Go binary to release
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -31,10 +31,9 @@ jobs:
           name: ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
           path: ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          content-type: text/plain
 
   publish-npm:
-    name: Publish NPM Package
+    name: Publish NPM package
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
