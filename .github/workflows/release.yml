@@ -1,10 +1,11 @@
-on: 
+name: Upload binaries to release
+
+on:
   release:
     types: [created]
 
 jobs:
   releases-matrix:
-    name: Upload Go binary to release
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -31,15 +32,3 @@ jobs:
           name: ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
           path: ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-  publish-npm:
-    name: Publish NPM package
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          registry-url: 'https://registry.npmjs.org'
-      - run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
