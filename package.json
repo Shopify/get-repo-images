@@ -1,16 +1,16 @@
 {
   "name": "@shopify/get-repo-images",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An extremely fast repository crawler to find images across multiple repos",
+  "bin": "./npm/run.js",
+  "scripts": {
+    "postinstall": "node ./npm/install.js",
+    "preuninstall": "node ./npm/uninstall.js"
+  },
   "license": "MIT",
   "files": [
-    "npm",
-    "bin"
+    "npm"
   ],
-  "bin": "./npm/run.js",
-  "simple-git-hooks": {
-    "pre-commit": "node ./npm/build.js && git add ./bin"
-  },
   "publishConfig": {
     "access": "public"
   },
@@ -27,6 +27,7 @@
     "url": "http://alexpage.com.au"
   },
   "dependencies": {
-    "simple-git-hooks": "^2.4.1"
+    "got": "^11.8.2",
+    "tar": "^6.1.0"
   }
 }

@@ -2,9 +2,11 @@
 .dev
 .shadowenv.d
 
+yarn_error.log
 node_modules
 
 images.json
-get-repo-site
-/repos.config.json
-/get-repo-images
+
+repos.config.json
+npm/get-repo-images
+bin

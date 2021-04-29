@@ -76,17 +76,9 @@ $ npx @shopify/get-repo-images -settings get-repo-images.json
 }
 ```
 
-## Contribute
-
-We welcome contributions to this repo, both in the content and the codebase, and are happy to help! Have a feature request or found a bug? Submit a [new issue](https://github.com/Shopify/get-repo-images/issues/new).
-
-**Release a new version**
-
-Update the `package.json` file to the next [semantic version](https://semver.org). Push the changes to GitHub and then [create a release](https://github.com/Shopify/get-repo-images/releases/new?target=main).
-
 ## Technical details
 
-get-repo-images is built using the following technologies:
+@shopify/get-repo-images is built using the following technologies:
 
 - go, a programming language https://golang.org/
 - go-git, git implementation for go https://github.com/go-git/go-git

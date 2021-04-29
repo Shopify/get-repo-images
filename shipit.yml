@@ -1,0 +1,11 @@
+ci:
+  require:
+    - 'CI'
+    - 'Upload binaries to release (darwin, amd64)'
+    - 'Upload binaries to release (linux, 386)'
+    - 'Upload binaries to release (linux, amd64)'
+    - 'Upload binaries to release (windows, 386)'
+    - 'Upload binaries to release (windows, amd64)'
+dependencies:
+  override:
+    - echo 'do not install deps'
