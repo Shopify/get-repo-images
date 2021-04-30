@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"os"
 )
@@ -21,7 +22,7 @@ func getSettings(repoFlag string, configFlag string) ([]RepoSettings, error) {
 
 	file, err := os.Open(configFlag)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("--repo flag or repos.config.json file required to run search")
 	}
 	defer file.Close()
 

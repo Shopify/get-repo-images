@@ -44,7 +44,10 @@ const install = () => {
 
 const run = () => {
   const [, , ...args] = process.argv;
-  const result = childProcess.spawnSync(binaryLocation, args, {stdio: "inherit" });
+  const result = childProcess.spawnSync(binaryLocation, args, {
+    stdio: "inherit",
+    cwd: packageDir
+  });
 
   if (result.error) {
     console.error(result.error);

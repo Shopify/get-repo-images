@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -56,11 +55,6 @@ func main() {
 	jsonFlag := flag.Bool("json", false, "create a images.json file with results")
 	buildFlag := flag.Bool("build", false, "build the site to the .site dir")
 	flag.Parse()
-
-	if len(*repoFlag) == 0 && len(*configFlag) == 0 {
-		err := errors.New("required flag for -repo or -config missing")
-		checkError(err)
-	}
 
 	os.RemoveAll(imgDir)
 	os.RemoveAll(siteDir)
