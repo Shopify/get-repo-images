@@ -6,7 +6,7 @@ import (
 )
 
 func TestGetSettingsOneRepo(t *testing.T) {
-	settings, err := getSettings("testdata", false)
+	settings, err := getSettings("testdata", "")
 	if err != nil {
 		t.Errorf("Failed creating settings for one repo")
 	}
@@ -23,36 +23,33 @@ func TestGetSettingsOneRepo(t *testing.T) {
 		t.Errorf("Incorrect settings for one repo")
 	}
 }
+func TestGetSettingsMultipleRepos(t *testing.T) {
+	settings, err := getSettings("", "testdata/repos.config.json")
+	if err != nil {
+		t.Errorf("Failed creating settings for multiple repos")
+	}
 
-// This test doesn't work because `testdata/repos.config.json` is in the wrong place
-//
-// func TestGetSettingsMultipleRepos(t *testing.T) {
-// 	settings, err := getSettings("", true)
-// 	if err != nil {
-// 		t.Errorf("Failed creating settings for multiple repos")
-// 	}
+	settingOne := RepoSettings{
+		Repo:             "testdata",
+		Extensions:       []string{"png", "jpg"},
+		MinSize:          1000,
+		UsageMatchers:    []string{"<img"},
+		UsageNoExtension: true,
+	}
 
-// 	settingOne := RepoSettings{
-// 		Repo:             "testdata",
-// 		Extensions:       []string{"png", "jpg"},
-// 		MinSize:          1000,
-// 		UsageMatchers:    []string{"<img"},
-// 		UsageNoExtension: true,
-// 	}
+	settingTwo := RepoSettings{
+		Repo:             "alex-page/alexpage.com.au",
+		Extensions:       []string{"svg", "png", "jpg", "jpeg", "gif", "webp"},
+		MinSize:          0,
+		UsageMatchers:    []string{},
+		UsageNoExtension: false,
+	}
 
-// 	settingTwo := RepoSettings{
-// 		Repo:             "alex-page/alexpage.com.au",
-// 		Extensions:       []string{"svg", "png", "jpg", "jpeg", "gif", "webp"},
-// 		MinSize:          0,
-// 		UsageMatchers:    []string{},
-// 		UsageNoExtension: false,
-// 	}
+	if !reflect.DeepEqual(settings[0], settingOne) {
+		t.Errorf("Incorrect settings for one repo")
+	}
 
-// 	if !reflect.DeepEqual(settings[0], settingOne) {
-// 		t.Errorf("Incorrect settings for one repo")
-// 	}
-
-// 	if settings[1].Repo != settingTwo.Repo {
-// 		t.Errorf("Incorrect settings for two repo")
-// 	}
-// }
+	if settings[1].Repo != settingTwo.Repo {
+		t.Errorf("Incorrect settings for two repo")
+	}
+}

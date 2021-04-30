@@ -8,8 +8,12 @@ import (
 )
 
 func createSite(data Data, buildFlag bool) error {
-	siteTemplateDir := siteDir + "site-template/"
-	err := clone("shopify/get-repo-images", siteDir, "")
+	templateDir := "site-template/"
+
+	os.RemoveAll(templateDir + "node_modules")
+	os.RemoveAll(templateDir + ".next")
+
+	err := copyDir("site-template/", siteDir)
 	if err != nil {
 		return err
 	}
@@ -19,7 +23,7 @@ func createSite(data Data, buildFlag bool) error {
 		return err
 	}
 
-	err = writeJsonFile(data, siteTemplateDir+"db.json")
+	err = writeJsonFile(data, siteDir+"db.json")
 	if err != nil {
 		return err
 	}
@@ -36,7 +40,7 @@ func createSite(data Data, buildFlag bool) error {
 		}
 
 		os.RemoveAll(cwd + "/" + siteBuildLocation)
-		copyDir(siteTemplateDir, cwd+"/"+siteBuildLocation)
+		copyDir(siteDir, cwd+"/"+siteBuildLocation)
 		fmt.Println("Site has been created at", siteBuildLocation)
 
 		return nil
@@ -51,7 +55,7 @@ func createSite(data Data, buildFlag bool) error {
 
 	for index, command := range commands {
 		cmd := exec.Command(command[0], command[index+1:]...)
-		cmd.Dir = siteTemplateDir
+		cmd.Dir = siteDir
 		err = cmd.Run()
 		if err != nil {
 			return err

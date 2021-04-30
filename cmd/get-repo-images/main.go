@@ -41,7 +41,7 @@ type Data struct {
 
 var tmpDir = "/tmp/get-repo-images/"
 var siteDir = "/tmp/get-repo-images/site/"
-var imgDir = siteDir + "site-template/public/repo-images/"
+var imgDir = siteDir + "public/repo-images/"
 var siteBuildLocation = "get-repo-site/"
 var clonedCount = 0
 var imageCount = 0
@@ -50,14 +50,14 @@ var doneCount = 0
 func main() {
 	var images []Image
 	repoFlag := flag.String("repo", "", "the repo to search")
-	configFlag := flag.Bool("config", false, "a repos.config.json file")
+	configFlag := flag.String("config", "repos.config.json", "a repos.config.json file")
 	token := flag.String("token", "", "a token to clone private repositories")
 	siteFlag := flag.Bool("site", true, "start a site to browse images")
 	jsonFlag := flag.Bool("json", false, "create a images.json file with results")
 	buildFlag := flag.Bool("build", false, "build the site to the .site dir")
 	flag.Parse()
 
-	if len(*repoFlag) == 0 && *configFlag {
+	if len(*repoFlag) == 0 && len(*configFlag) == 0 {
 		err := errors.New("required flag for -repo or -config missing")
 		checkError(err)
 	}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/go-git/go-git/v5"
@@ -33,7 +34,7 @@ func clone(repo string, tmpDir string, token string) error {
 
 	info, err := s.AdvertisedReferences()
 	if err != nil {
-		return err
+		return errors.New("Could not find or authenticate repo " + repo)
 	}
 
 	refs, err := info.AllReferences()

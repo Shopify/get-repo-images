@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Select from 'react-select';
 import ImageCard from '../components/image-card';
+import Modal from '../components/modal';
 import Pagination from '../components/pagination';
 
 const sortItems = [
@@ -55,12 +56,14 @@ function HomePage() {
     <>
       <Head>
         <link rel="icon" type="image/png" href="/favicon.png" />
-        <title>Visual Asset Library</title>
+        <title>@shopify/get-repo-images</title>
       </Head>
       <header>
         <Image src="/logo.svg" width="32" height="32" alt="Shopify logo" />
         <div className="search">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" /><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="currentColor" /></svg>
+          <div className="icon">
+            <svg viewBox="0 0 20 20" width="20px" height="20px" xmlns="http://www.w3.org/2000/svg"><path d="M2 8c0-3.309 2.691-6 6-6s6 2.691 6 6-2.691 6-6 6-6-2.691-6-6zm17.707 10.293l-5.395-5.396A7.946 7.946 0 0016 8c0-4.411-3.589-8-8-8S0 3.589 0 8s3.589 8 8 8a7.954 7.954 0 004.897-1.688l5.396 5.395A.998.998 0 0020 19a1 1 0 00-.293-.707z" fill="currentColor"/></svg>
+          </div>
           <input
             type="text"
             value={search}
@@ -105,36 +108,7 @@ function HomePage() {
       </footer>
       {
         usageModal.path &&
-          <div
-            className="modal"
-            onClick={(event) => event.target === event.currentTarget && setUsageModal({})}
-          >
-            <div className="card">
-              <div className="modal-header">
-                <h2>{usageModal.name}</h2>
-                <button onClick={() => setUsageModal({})}>X</button>
-              </div>
-              <h3>Code references <span className="tag">{usageModal.usage.length}</span></h3>
-              <ul className="link-list">
-                {usageModal.usage.map((usage, index) => (
-                  <li key={`usage-${usageModal.path}-${index}`}>
-                    <a
-                      rel="noopener noreferrer"
-                      target="_blank"
-                      href={`https://github.com/${usageModal.repo}/blob/master/${usage.path}#L${usage.lineNumber}`}
-                    >
-                      {usage.path} - L{usage.lineNumber}
-                    </a>
-                    <pre>
-                      <code>
-                        <span class="lineNo">{usage.lineNumber}</span>  {usage.line}
-                      </code>
-                    </pre>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+          <Modal usageModal={usageModal} closeHandler={setUsageModal} />
       }
     </>
   )

@@ -3,13 +3,15 @@ const os = require("os");
 const fs = require("fs");
 const stream = require("stream");
 const childProcess = require("child_process");
+const path = require('path');
 
 const got = require("got");
 const tar = require("tar");
 
 const {name, version} = require("../package.json");
 const binaryFile = name.split('/')[1];
-const binaryLocation = __dirname + '/' + binaryFile;
+const packageDir =  path.join(__dirname, '..')
+const binaryLocation = path.join(packageDir, binaryFile);
 
 const platformFiles = {
   "darwin x64": "darwin-amd64",
@@ -35,7 +37,7 @@ const install = () => {
   const url = `https://github.com/Shopify/${binaryFile}/releases/download/v${version}/${platform}.tar.gz`;
   stream.pipeline(
     got.stream(url),
-    tar.x({ C: __dirname }),
+    tar.x({ C: packageDir }),
     err => err && console.error(err.message)
   );
 };

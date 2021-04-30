@@ -20,13 +20,13 @@ function ImageCard({image, referenceOnClick}) {
 					image.usage ?
 						<button
 							className="small btn-link"
-							title="View references"
+							title={`View ${image.usage.length === 1 ? " reference" : " references"}`}
 							onClick={() => referenceOnClick(image)}
 						>
 							{image.usage.length}
 							{image.usage.length === 1 ? " reference" : " references"}
 						</button>
-						: <span className="small">No references</span>
+						: <span className="small">No reference</span>
 				}
 			</p>
 			<h2>{image.name}</h2>

@@ -8,5 +8,6 @@ node_modules
 images.json
 
 repos.config.json
-npm/get-repo-images
-bin
+/get-repo-images
+
+site-template/.next

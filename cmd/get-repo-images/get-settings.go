@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func getSettings(repoFlag string, configFlag bool) ([]RepoSettings, error) {
+func getSettings(repoFlag string, configFlag string) ([]RepoSettings, error) {
 	var settings []RepoSettings
 	defaultExtensions := []string{"svg", "png", "jpg", "jpeg", "gif", "webp"}
 
@@ -19,7 +19,7 @@ func getSettings(repoFlag string, configFlag bool) ([]RepoSettings, error) {
 		return settings, nil
 	}
 
-	file, err := os.Open("repos.config.json")
+	file, err := os.Open(configFlag)
 	if err != nil {
 		return nil, err
 	}
