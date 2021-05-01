@@ -21,13 +21,16 @@ func checkError(err error) {
 }
 
 func getStatus(remainingRepos []string, totalRepos int) string {
-	status := " cloned (" + strconv.Itoa(clonedCount) + "/" + strconv.Itoa(totalRepos) + ")"
+	var status string
+	if len(remainingRepos) <= 3 && len(remainingRepos) != 0 {
+		status += " Searching " + strings.Join(remainingRepos, " ")
+	} else {
+		status += " Searching " + strconv.Itoa(len(remainingRepos)) + " repos"
+	}
+
+	status += " cloned (" + strconv.Itoa(clonedCount) + "/" + strconv.Itoa(totalRepos) + ")"
 	status += " images (" + strconv.Itoa(clonedCount) + "/" + strconv.Itoa(totalRepos) + ")"
 	status += " usage (" + strconv.Itoa(doneCount) + "/" + strconv.Itoa(totalRepos) + ")"
-
-	if len(remainingRepos) <= 3 && len(remainingRepos) != 0 {
-		status += " waiting for " + strings.Join(remainingRepos, " ")
-	}
 
 	return status
 }

@@ -11,7 +11,7 @@ func TestFindImages(t *testing.T) {
 		Extensions: []string{"svg", "png", "jpg", "jpeg", "gif", "webp"},
 	}
 
-	copyDir("testdata", "/tmp/get-repo-images/testdata/")
+	copyDir("testdata", os.TempDir()+"get-repo-images/testdata/")
 
 	images, err := findImages(settings, false)
 	if err != nil {
@@ -22,5 +22,5 @@ func TestFindImages(t *testing.T) {
 		t.Errorf("Did not find images")
 	}
 
-	os.RemoveAll("/tmp/get-repo-images/")
+	os.RemoveAll(os.TempDir() + "get-repo-images/")
 }

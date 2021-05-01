@@ -27,7 +27,7 @@ func TestFindUsage(t *testing.T) {
 		Date: "2021-04-19 08:57:50.288509246 -0700 PDT",
 	}
 
-	copyDir("testdata", "/tmp/get-repo-images/testdata/")
+	copyDir("testdata", os.TempDir()+"/get-repo-images/testdata/")
 
 	usage, err := findUsage([]Image{image1, image2}, settings)
 	if err != nil {
@@ -38,5 +38,5 @@ func TestFindUsage(t *testing.T) {
 		t.Errorf("Did not find usage")
 	}
 
-	os.RemoveAll("/tmp/get-repo-images/")
+	os.RemoveAll(os.TempDir() + "/get-repo-images/")
 }

@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/briandowns/spinner"
+	"github.com/fatih/color"
 )
 
 type Usage struct {
@@ -38,13 +39,14 @@ type Data struct {
 	Images []Image  `json:"images"` // the images found
 }
 
-var tmpDir = "/tmp/get-repo-images/"
-var siteDir = "/tmp/get-repo-images/site/"
+var tmpDir = os.TempDir() + "get-repo-images/"
+var siteDir = os.TempDir() + "get-repo-images/site/"
 var imgDir = siteDir + "public/repo-images/"
 var siteBuildLocation = "get-repo-site/"
 var clonedCount = 0
 var imageCount = 0
 var doneCount = 0
+var green = color.New(color.FgGreen).SprintFunc()
 
 func main() {
 	var images []Image
@@ -70,9 +72,9 @@ func main() {
 		allRepos = append(allRepos, repo.Repo)
 	}
 
-	spinnerIndicator := spinner.New(spinner.CharSets[1], 100*time.Millisecond)
+	spinnerIndicator := spinner.New(spinner.CharSets[14], 100*time.Millisecond)
 	spinnerIndicator.Start()
-	spinnerIndicator.Color("bgWhite", "blue")
+	spinnerIndicator.Color("blue")
 	spinnerIndicator.Suffix = getStatus(remainingRepos, totalRepos)
 
 	var wg sync.WaitGroup
@@ -117,7 +119,7 @@ func main() {
 		return
 	} else {
 		fmt.Printf("\033[2K\r")
-		fmt.Println("Search complete found", len(images), "images")
+		fmt.Println(green("✔"), "Search complete found", len(images), "images")
 	}
 
 	data := Data{allRepos, images}

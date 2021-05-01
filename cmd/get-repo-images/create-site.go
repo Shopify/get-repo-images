@@ -5,9 +5,17 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"time"
+
+	"github.com/briandowns/spinner"
 )
 
 func createSite(data Data, buildFlag bool) error {
+	spinnerIndicator := spinner.New(spinner.CharSets[14], 100*time.Millisecond)
+	spinnerIndicator.Start()
+	spinnerIndicator.Color("blue")
+	spinnerIndicator.Suffix = " Your site is building, please wait..."
+
 	templateDir := "site-template/"
 
 	os.RemoveAll(templateDir + "node_modules")
@@ -46,8 +54,6 @@ func createSite(data Data, buildFlag bool) error {
 		return nil
 	}
 
-	fmt.Println("Your site is building, please wait...")
-
 	commands := [][]string{
 		{"npm", "install"},
 		{"node_modules/.bin/next", "start"},
@@ -60,8 +66,9 @@ func createSite(data Data, buildFlag bool) error {
 		if err != nil {
 			return err
 		}
+		spinnerIndicator.Stop()
 
-		fmt.Println("Browse, sort and filter your images http://localhost:3000")
+		fmt.Println(green("✔"), "Browse, sort and filter your images http://localhost:3000")
 	}
 
 	return nil
