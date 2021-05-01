@@ -4,12 +4,13 @@ import (
 	"io"
 	"io/fs"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 )
 
 func copyDir(src string, dst string) error {
-	err := filepath.WalkDir(src, func(path string, d fs.DirEntry, err error) error {
+	err := filepath.WalkDir(src, func(fpath string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}
@@ -18,7 +19,7 @@ func copyDir(src string, dst string) error {
 			return nil
 		}
 
-		err = copy(path, dst+strings.Replace(path, src, "", 1))
+		err = copy(fpath, path.Join(dst, strings.Replace(fpath, src, "", 1)))
 		if err != nil {
 			return err
 		}

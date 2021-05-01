@@ -4,13 +4,14 @@ import (
 	"bufio"
 	"io/fs"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 	"unicode/utf8"
 )
 
 func findUsage(images []Image, settings RepoSettings) ([]Image, error) {
-	var repoDir = tmpDir + settings.Repo
+	var repoDir = path.Join(tmpDir, settings.Repo)
 
 	err := filepath.WalkDir(repoDir, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {

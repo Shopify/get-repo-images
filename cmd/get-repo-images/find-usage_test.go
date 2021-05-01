@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"path"
 	"testing"
 )
 
@@ -27,7 +28,7 @@ func TestFindUsage(t *testing.T) {
 		Date: "2021-04-19 08:57:50.288509246 -0700 PDT",
 	}
 
-	copyDir("testdata", os.TempDir()+"/get-repo-images/testdata/")
+	copyDir("testdata", path.Join(os.TempDir(), "get-repo-images/testdata/"))
 
 	usage, err := findUsage([]Image{image1, image2}, settings)
 	if err != nil {
@@ -38,5 +39,5 @@ func TestFindUsage(t *testing.T) {
 		t.Errorf("Did not find usage")
 	}
 
-	os.RemoveAll(os.TempDir() + "/get-repo-images/")
+	os.RemoveAll(path.Join(os.TempDir(), "/get-repo-images/"))
 }

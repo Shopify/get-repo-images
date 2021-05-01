@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path"
 	"time"
 
 	"github.com/briandowns/spinner"
@@ -18,20 +19,20 @@ func createSite(data Data, buildFlag bool) error {
 
 	templateDir := "site-template/"
 
-	os.RemoveAll(templateDir + "node_modules")
-	os.RemoveAll(templateDir + ".next")
+	os.RemoveAll(path.Join(templateDir, "node_modules"))
+	os.RemoveAll(path.Join(templateDir, ".next"))
 
-	err := copyDir("site-template/", siteDir)
+	err := copyDir(templateDir, siteDir)
 	if err != nil {
 		return err
 	}
 
-	err = copyDir(tmpDir+"images", imgDir)
+	err = copyDir(path.Join(tmpDir, "images"), imgDir)
 	if err != nil {
 		return err
 	}
 
-	err = writeJsonFile(data, siteDir+"db.json")
+	err = writeJsonFile(data, path.Join(siteDir, "db.json"))
 	if err != nil {
 		return err
 	}
@@ -47,8 +48,15 @@ func createSite(data Data, buildFlag bool) error {
 			return err
 		}
 
-		os.RemoveAll(cwd + "/" + siteBuildLocation)
-		copyDir(siteDir, cwd+"/"+siteBuildLocation)
+		err = os.RemoveAll(path.Join(cwd, siteBuildLocation))
+		if err != nil {
+			return err
+		}
+
+		err = copyDir(siteDir, path.Join(cwd, siteBuildLocation))
+		if err != nil {
+			return err
+		}
 		fmt.Println("Site has been created at", siteBuildLocation)
 
 		return nil
