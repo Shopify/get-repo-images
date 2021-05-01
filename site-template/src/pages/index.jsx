@@ -7,12 +7,12 @@ import Modal from '../components/modal';
 import Pagination from '../components/pagination';
 
 const sortItems = [
+  { value: 'usage-desc', label: 'Most references' },
+  { value: 'usage', label: 'Least references' },
   { value: 'date-desc', label: 'Newest' },
   { value: 'date', label: 'Oldest' },
-  { value: 'usage', label: 'Least references' },
-  { value: 'usage-desc', label: 'Most references' },
-  { value: 'size', label: 'Smallest file size' },
   { value: 'size-desc', label: 'Largest file size' },
+  { value: 'size', label: 'Smallest file size' },
   { value: 'name-desc', label: 'Alphabetical A to Z' },
   { value: 'name', label: 'Alphabetical Z to A' }
 ];
@@ -24,7 +24,7 @@ function HomePage() {
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState('');
   const [repo, setRepo] = useState([]);
-  const [sort, setSort] = useState({});
+  const [sort, setSort] = useState(sortItems[0]);
   const [usageModal, setUsageModal] = useState({});
   const [totalImages, setTotalImages] = useState(0)
 
@@ -52,6 +52,16 @@ function HomePage() {
     setTags(tags.map(tag => ({value: tag, label: tag })));
   }, []);
 
+  const handleSearch = (event) => {
+    setPage(0);
+    setSearch(event.target.value);
+  }
+
+  const handleRepo = (value) => {
+    setPage(0);
+    setRepo(value);
+  }
+
   return (
     <>
       <Head>
@@ -68,7 +78,7 @@ function HomePage() {
             type="text"
             value={search}
             placeholder={`Search ${totalImages} images`}
-            onChange={(event) => setSearch(event.target.value)}
+            onChange={handleSearch}
           />
         </div>
         <Select
@@ -77,10 +87,7 @@ function HomePage() {
           placeholder="Repository"
           isMulti
           options={tags}
-          onChange={(value) => {
-            setRepo(value)
-            setPage(0)
-          }}
+          onChange={handleRepo}
         />
         <Select
           name="Sort"

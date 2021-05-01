@@ -24,16 +24,16 @@ As Shopify has scaled, our usage of illustrations in code has become fragmented 
 
 ## How to use
 
-Start a website at at [http://localhost:3000](http://localhost:3000) to browse, sort and filter images from `alex-page/alexpage.com.au` 
+Make sure you have [Node.js version 14](https://nodejs.org/en/download/) or later, then run this command from your terminal to to browse, sort and filter images from `alex-page/alexpage.com.au` on a Next.js website at [http://localhost:3000](http://localhost:3000) 
 
 ```bash
-$ npx @shopify/get-repo-images -repo alex-page/alexpage.com.au
+npx @shopify/get-repo-images -repo alex-page/alexpage.com.au
 ```
 
 Create the files for a Next.js website into the `./repo-images-site` directory
 
 ```bash
-$ npx @shopify/get-repo-images -build -repo alex-page/alexpage.com.au
+npx @shopify/get-repo-images -build -repo alex-page/alexpage.com.au
 ```
 
 > Note: If you want to run the website you can run `cd repo-images-site && npm i && npm run dev`
@@ -41,7 +41,7 @@ $ npx @shopify/get-repo-images -build -repo alex-page/alexpage.com.au
 Generate a JSON file with results to `./images.json`
 
 ```bash
-$ npx @shopify/get-repo-images -json -repo alex-page/alexpage.com.au
+npx @shopify/get-repo-images -json -repo alex-page/alexpage.com.au
 ```
 
 **Private repositories**
@@ -49,7 +49,7 @@ $ npx @shopify/get-repo-images -json -repo alex-page/alexpage.com.au
 Add a [personal access token](https://github.com/settings/tokens/new?description=get-repo-images&scopes=repo) for private repositories. Replace `TOKEN` with your token.
 
 ```shell
-$ npx @shopify/get-repo-images -repo alex-page/alexpage.com.au -token TOKEN
+npx @shopify/get-repo-images -repo alex-page/alexpage.com.au -token TOKEN
 ```
 
 **Advanced usage**
@@ -57,7 +57,7 @@ $ npx @shopify/get-repo-images -repo alex-page/alexpage.com.au -token TOKEN
 To get the images from multiple repositories, specific image extensions, minimum image sizes you can add more options to the `repos.config.json`:
 
 ```shell
-$ npx @shopify/get-repo-images -settings get-repo-images.json
+npx @shopify/get-repo-images -settings get-repo-images.json
 ```
 
 ```json
