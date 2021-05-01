@@ -126,13 +126,17 @@ input {
   border: 1px solid #c9cccf;
   border-top-color: #aeb4b9;
   border-radius: 0.2rem;
-  padding: 0.5rem 1rem 0.5rem 2.5rem;
+  padding: 0.5rem 1rem 0.4rem 2.5rem;
   width: 100%;
+}
+
+input::placeholder {
+  color: #6F7676;
 }
 
 .search > input:focus,
 .card.card--active {
-  box-shadow: 0 0 0 2px #2684FF;
+  box-shadow: 0 0 0 2px #236FD1;
   border-color: transparent;
   outline: none;
 }
@@ -145,7 +149,7 @@ button {
 button:not(.card--active):hover {
   border-bottom-color: #bbb;
   cursor: pointer;
-  color: #2684FF;
+  color: #236FD1;
   text-decoration: underline;
 }
 
@@ -227,7 +231,7 @@ h3 {
 }
 
 a {
-  color: #2684FF;
+  color: #236FD1;
 }
 
 a:hover {
@@ -237,7 +241,7 @@ a:hover {
 .btn-link {
   padding: 0;
   margin: 0;
-  color: #2684FF;
+  color: #236FD1;
 }
 
 .img-container {
