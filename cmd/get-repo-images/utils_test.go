@@ -19,24 +19,24 @@ func TestWriteJsonFile(t *testing.T) {
 
 	err := writeJsonFile(image1, jsonFile)
 	if err != nil {
-		t.Errorf("Error occured when writing JSON file")
+		t.Errorf("Error occured when writing JSON file\n%s", err)
 	}
 
 	file, err := os.Open(jsonFile)
 	if err != nil {
-		t.Errorf("Error occured when opening JSON file")
+		t.Errorf("Error occured when opening JSON file\n%s", err)
 	}
 	defer file.Close()
 
 	byteValue, err := ioutil.ReadAll(file)
 	if err != nil {
-		t.Errorf("Error occured when reading JSON file")
+		t.Errorf("Error occured when reading JSON file\n%s", err)
 	}
 
 	var jsonData Image
 	err = json.Unmarshal([]byte(byteValue), &jsonData)
 	if err != nil {
-		t.Errorf("Error occured when unmarshalling json")
+		t.Errorf("Error occured when unmarshalling json\n%s", err)
 	}
 
 	os.RemoveAll("testdata/file.json")

@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path"
 	"sync"
 	"time"
 
@@ -39,9 +40,9 @@ type Data struct {
 	Images []Image  `json:"images"` // the images found
 }
 
-var tmpDir = os.TempDir() + "get-repo-images/"
-var siteDir = os.TempDir() + "get-repo-images/site/"
-var imgDir = siteDir + "public/repo-images/"
+var tmpDir = path.Join(os.TempDir(), "get-repo-images/")
+var siteDir = path.Join(os.TempDir(), "get-repo-images/site/")
+var imgDir = path.Join(siteDir, "public/repo-images/")
 var siteBuildLocation = "get-repo-site/"
 var clonedCount = 0
 var imageCount = 0
@@ -84,7 +85,7 @@ func main() {
 			defer wg.Done()
 			repo := settings.Repo
 
-			err := clone(repo, tmpDir+repo, *token)
+			err := clone(repo, path.Join(tmpDir, repo), *token)
 			checkError(err)
 			clonedCount += 1
 			spinnerIndicator.Suffix = getStatus(remainingRepos, totalRepos)

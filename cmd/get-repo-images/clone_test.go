@@ -12,12 +12,12 @@ func TestClone(t *testing.T) {
 
 	err := clone(repo, testCloneDir, "")
 	if err != nil {
-		t.Errorf("Failed to clone")
+		t.Errorf("Failed to clone\n%s", err)
 	}
 
 	_, err = os.Stat(testCloneDir + "/README.md")
 	if err != nil {
-		t.Errorf("Files are not in correct place")
+		t.Errorf("Files are not in correct place\n%s", err)
 	}
 
 	os.RemoveAll(testCloneDir)

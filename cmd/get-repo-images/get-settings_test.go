@@ -8,7 +8,7 @@ import (
 func TestGetSettingsOneRepo(t *testing.T) {
 	settings, err := getSettings("testdata", "")
 	if err != nil {
-		t.Errorf("Failed creating settings for one repo")
+		t.Errorf("Failed creating settings for one repo\n%s", err)
 	}
 
 	settingsFixture := RepoSettings{
@@ -26,7 +26,7 @@ func TestGetSettingsOneRepo(t *testing.T) {
 func TestGetSettingsMultipleRepos(t *testing.T) {
 	settings, err := getSettings("", "testdata/repos.config.json")
 	if err != nil {
-		t.Errorf("Failed creating settings for multiple repos")
+		t.Errorf("Failed creating settings for multiple repos\n%s", err)
 	}
 
 	settingOne := RepoSettings{
