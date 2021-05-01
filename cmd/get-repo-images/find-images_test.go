@@ -15,7 +15,7 @@ func TestFindImages(t *testing.T) {
 
 	images, err := findImages(settings, false)
 	if err != nil {
-		t.Errorf("Error occured when finding images")
+		t.Errorf("Error occured when finding images\n%s", err)
 	}
 
 	if len(images) != 3 {

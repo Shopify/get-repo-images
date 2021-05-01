@@ -31,7 +31,7 @@ func TestFindUsage(t *testing.T) {
 
 	usage, err := findUsage([]Image{image1, image2}, settings)
 	if err != nil {
-		t.Errorf("Error occured when finding usage")
+		t.Errorf("Error occured when finding usage\n%s", err)
 	}
 
 	if len(usage) != 2 || len(usage[0].Usage) != 1 {
