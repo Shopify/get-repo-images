@@ -38,6 +38,8 @@ func findImages(settings RepoSettings, siteFlag bool) ([]Image, error) {
 				}
 
 				var imgPath = strings.Replace(fpath, repoDir+"/", "", 1)
+				imgPath = strings.TrimSuffix(imgPath, "\n")
+				imgPath = strings.TrimSuffix(imgPath, "\r")
 
 				if minSize < info.Size() {
 					images = append(images, Image{
