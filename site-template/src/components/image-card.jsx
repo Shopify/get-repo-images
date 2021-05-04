@@ -11,6 +11,7 @@ function ImageCard({image, referenceOnClick}) {
 						width={400}
 						height={200}
 						objectFit="scale-down"
+						alt=""
 					/>
 				</div>
 			</div>

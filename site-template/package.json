@@ -1,5 +1,5 @@
 {
-	"name": "image-explorer",
+	"name": "site-template",
 	"private": "true",
 	"description": "Application to browse, sort and filter images from @shopify/get-repo-images",
 	"dependencies": {
