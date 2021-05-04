@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"path"
+	"path/filepath"
 	"sync"
 	"time"
 
@@ -40,10 +40,10 @@ type Data struct {
 	Images []Image  `json:"images"` // the images found
 }
 
-var tmpDir = path.Join(os.TempDir(), "get-repo-images/")
-var siteDir = path.Join(os.TempDir(), "get-repo-images/site/")
-var imgDir = path.Join(siteDir, "public/repo-images/")
-var siteBuildLocation = "get-repo-site/"
+var tmpDir = filepath.Join(os.TempDir(), "get-repo-images")
+var siteDir = filepath.Join(os.TempDir(), "get-repo-images/site")
+var imgDir = filepath.Join(siteDir, "public/repo-images")
+var siteBuildLocation = "get-repo-site"
 var clonedCount = 0
 var imageCount = 0
 var doneCount = 0
@@ -59,8 +59,6 @@ func main() {
 	buildFlag := flag.Bool("build", false, "build the site to the .site dir")
 	flag.Parse()
 
-	os.RemoveAll(imgDir)
-	os.RemoveAll(siteDir)
 	os.RemoveAll(tmpDir)
 
 	repos, err := getSettings(*repoFlag, *configFlag)
@@ -85,7 +83,7 @@ func main() {
 			defer wg.Done()
 			repo := settings.Repo
 
-			err := clone(repo, path.Join(tmpDir, repo), *token)
+			err := clone(repo, filepath.Join(tmpDir, repo), *token)
 			checkError(err)
 			clonedCount += 1
 			spinnerIndicator.Suffix = getStatus(remainingRepos, totalRepos)
@@ -120,15 +118,16 @@ func main() {
 		return
 	} else {
 		fmt.Printf("\033[2K\r")
-		fmt.Println(green("✔"), "Search complete found", len(images), "images")
+		fmt.Println(green("✓"), "Search complete found", len(images), "images")
 	}
 
 	data := Data{allRepos, images}
 
 	if *jsonFlag {
 		err := writeJsonFile(data, "images.json")
-		fmt.Println("Created images.json file with results")
 		checkError(err)
+		spinnerIndicator.Stop()
+		fmt.Println(green("✓"), "Created images.json file with results")
 		return
 	}
 

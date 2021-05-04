@@ -2,7 +2,7 @@ package main
 
 import (
 	"os"
-	"path"
+	"path/filepath"
 	"testing"
 
 	"github.com/otiai10/copy"
@@ -14,7 +14,7 @@ func TestFindImages(t *testing.T) {
 		Extensions: []string{"svg", "png", "jpg", "jpeg", "gif", "webp"},
 	}
 
-	copy.Copy("testdata", path.Join(os.TempDir(), "/get-repo-images/testdata/"))
+	copy.Copy("testdata", filepath.Join(os.TempDir(), "get-repo-images/testdata"))
 
 	images, err := findImages(settings, false)
 	if err != nil {
@@ -25,5 +25,5 @@ func TestFindImages(t *testing.T) {
 		t.Errorf("Did not find images")
 	}
 
-	os.RemoveAll(path.Join(os.TempDir(), "/get-repo-images/"))
+	os.RemoveAll(filepath.Join(os.TempDir(), "get-repo-images"))
 }

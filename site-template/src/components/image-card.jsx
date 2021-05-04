@@ -7,7 +7,7 @@ function ImageCard({image, referenceOnClick}) {
 			<div className="img-wrapper">
 				<div className="img-container">
 					<Image
-						src={`/repo-images/${image.repo}/${image.path}`}
+						src={`/repo-images/${image.repo}${image.path}`}
 						width={400}
 						height={200}
 						objectFit="scale-down"
