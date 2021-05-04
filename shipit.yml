@@ -1,6 +1,8 @@
 ci:
   require:
-    - 'CI'
+    - 'CI (macos-latest)'
+    - 'CI (ubuntu-latest)'
+    - 'CI (windows-latest)'
     - 'Upload binaries to release (darwin, amd64)'
     - 'Upload binaries to release (linux, 386)'
     - 'Upload binaries to release (linux, amd64)'
