@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/briandowns/spinner"
+	"github.com/otiai10/copy"
 )
 
 func createSite(data Data, buildFlag bool) error {
@@ -22,12 +23,12 @@ func createSite(data Data, buildFlag bool) error {
 	os.RemoveAll(path.Join(templateDir, "node_modules"))
 	os.RemoveAll(path.Join(templateDir, ".next"))
 
-	err := copyDir(templateDir, siteDir)
+	err := copy.Copy(templateDir, siteDir)
 	if err != nil {
 		return err
 	}
 
-	err = copyDir(path.Join(tmpDir, "images"), imgDir)
+	err = copy.Copy(path.Join(tmpDir, "images"), imgDir)
 	if err != nil {
 		return err
 	}
@@ -53,7 +54,7 @@ func createSite(data Data, buildFlag bool) error {
 			return err
 		}
 
-		err = copyDir(siteDir, path.Join(cwd, siteBuildLocation))
+		err = copy.Copy(siteDir, path.Join(cwd, siteBuildLocation))
 		if err != nil {
 			return err
 		}
