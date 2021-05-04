@@ -1,6 +1,6 @@
 {
   "name": "@shopify/get-repo-images",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "An extremely fast repository crawler to find images across multiple repos",
   "bin": "./npm/run.js",
   "scripts": {
