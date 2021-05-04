@@ -6,6 +6,8 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+
+	"github.com/otiai10/copy"
 )
 
 func findImages(settings RepoSettings, siteFlag bool) ([]Image, error) {
@@ -47,7 +49,7 @@ func findImages(settings RepoSettings, siteFlag bool) ([]Image, error) {
 					})
 
 					if siteFlag {
-						err := copy(fpath, path.Join(tmpDir, "images/", repo+"/", imgPath))
+						err := copy.Copy(fpath, path.Join(tmpDir, "images/", repo+"/", imgPath))
 						if err != nil {
 							return err
 						}

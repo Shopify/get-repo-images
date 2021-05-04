@@ -4,6 +4,8 @@ import (
 	"os"
 	"path"
 	"testing"
+
+	"github.com/otiai10/copy"
 )
 
 func TestFindUsage(t *testing.T) {
@@ -28,7 +30,7 @@ func TestFindUsage(t *testing.T) {
 		Date: "2021-04-19 08:57:50.288509246 -0700 PDT",
 	}
 
-	copyDir("testdata", path.Join(os.TempDir(), "get-repo-images/testdata/"))
+	copy.Copy("testdata", path.Join(os.TempDir(), "get-repo-images/testdata/"))
 
 	usage, err := findUsage([]Image{image1, image2}, settings)
 	if err != nil {
