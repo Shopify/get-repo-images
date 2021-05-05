@@ -3,7 +3,6 @@ package main
 import (
 	"io/fs"
 	"os"
-	"path"
 	"path/filepath"
 	"strings"
 
@@ -15,9 +14,9 @@ func findImages(settings RepoSettings, siteFlag bool) ([]Image, error) {
 	repo := settings.Repo
 	extensions := settings.Extensions
 	minSize := settings.MinSize
-	repoDir := path.Join(tmpDir, repo)
+	repoDir := filepath.Join(tmpDir, repo)
 
-	err := filepath.WalkDir(repoDir, func(fpath string, d fs.DirEntry, err error) error {
+	err := filepath.WalkDir(repoDir, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}
@@ -28,18 +27,16 @@ func findImages(settings RepoSettings, siteFlag bool) ([]Image, error) {
 
 		for _, extension := range extensions {
 			var pattern = "*." + extension
-			var fileName = strings.ToLower(filepath.Base(fpath))
+			var fileName = strings.ToLower(filepath.Base(path))
 			if matched, err := filepath.Match(pattern, fileName); err != nil {
 				return err
 			} else if matched {
-				info, err := os.Lstat(fpath)
+				info, err := os.Lstat(path)
 				if err != nil {
 					return err
 				}
 
-				var imgPath = strings.Replace(fpath, repoDir+"/", "", 1)
-				imgPath = strings.TrimSuffix(imgPath, "\n")
-				imgPath = strings.TrimSuffix(imgPath, "\r")
+				var imgPath = strings.Replace(path, repoDir, "", 1)
 
 				if minSize < info.Size() {
 					images = append(images, Image{
@@ -51,7 +48,7 @@ func findImages(settings RepoSettings, siteFlag bool) ([]Image, error) {
 					})
 
 					if siteFlag {
-						err := copy.Copy(fpath, path.Join(tmpDir, "images/", repo+"/", imgPath))
+						err := copy.Copy(path, filepath.Join(tmpDir, "images", repo, imgPath))
 						if err != nil {
 							return err
 						}

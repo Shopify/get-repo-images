@@ -1,11 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"os"
 	"os/exec"
-	"path"
+	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/briandowns/spinner"
@@ -18,22 +20,22 @@ func createSite(data Data, buildFlag bool) error {
 	spinnerIndicator.Color("blue")
 	spinnerIndicator.Suffix = " Your site is building, please wait..."
 
-	templateDir := "site-template/"
+	templateDir := "site-template"
 
-	os.RemoveAll(path.Join(templateDir, "node_modules"))
-	os.RemoveAll(path.Join(templateDir, ".next"))
+	os.RemoveAll(filepath.Join(templateDir, "node_modules"))
+	os.RemoveAll(filepath.Join(templateDir, ".next"))
 
 	err := copy.Copy(templateDir, siteDir)
 	if err != nil {
 		return err
 	}
 
-	err = copy.Copy(path.Join(tmpDir, "images"), imgDir)
+	err = copy.Copy(filepath.Join(tmpDir, "images"), imgDir)
 	if err != nil {
 		return err
 	}
 
-	err = writeJsonFile(data, path.Join(siteDir, "db.json"))
+	err = writeJsonFile(data, filepath.Join(siteDir, "db.json"))
 	if err != nil {
 		return err
 	}
@@ -49,35 +51,50 @@ func createSite(data Data, buildFlag bool) error {
 			return err
 		}
 
-		err = os.RemoveAll(path.Join(cwd, siteBuildLocation))
+		err = os.RemoveAll(filepath.Join(cwd, siteBuildLocation))
 		if err != nil {
 			return err
 		}
 
-		err = copy.Copy(siteDir, path.Join(cwd, siteBuildLocation))
+		err = copy.Copy(siteDir, filepath.Join(cwd, siteBuildLocation))
 		if err != nil {
 			return err
 		}
-		fmt.Println("Site has been created at", siteBuildLocation)
+
+		spinnerIndicator.Stop()
+		fmt.Println(green("✓"), "Site has been created at", siteBuildLocation)
 
 		return nil
 	}
 
 	commands := [][]string{
 		{"npm", "install"},
-		{"node_modules/.bin/next", "start"},
+		{filepath.Join("node_modules", ".bin", "next"), "start"},
 	}
 
+	nextSuccessString := "started server on 0.0.0.0:3000, url: http://localhost:3000"
 	for index, command := range commands {
 		cmd := exec.Command(command[0], command[index+1:]...)
 		cmd.Dir = siteDir
-		err = cmd.Run()
+
+		stdout, err := cmd.StdoutPipe()
 		if err != nil {
 			return err
 		}
-		spinnerIndicator.Stop()
 
-		fmt.Println(green("✔"), "Browse, sort and filter your images http://localhost:3000")
+		err = cmd.Start()
+		if err != nil {
+			return err
+		}
+
+		scanner := bufio.NewScanner(stdout)
+		for scanner.Scan() {
+			if strings.Contains(scanner.Text(), nextSuccessString) {
+				spinnerIndicator.Stop()
+				fmt.Println(green("✓"), "Browse, sort and filter your images http://localhost:3000")
+			}
+		}
+		cmd.Wait()
 	}
 
 	return nil
