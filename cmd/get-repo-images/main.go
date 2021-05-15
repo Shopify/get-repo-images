@@ -64,7 +64,7 @@ func main() {
 
 	configFile := ""
 	if *configFlag {
-		configFile = filepath.Join(cwd, "repos.config.json")
+		configFile = "repos.config.json"
 	}
 
 	repos, err := getSettings(*repoFlag, configFile)
