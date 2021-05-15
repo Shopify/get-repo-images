@@ -52,7 +52,7 @@ var green = color.New(color.FgGreen).SprintFunc()
 func main() {
 	var images []Image
 	repoFlag := flag.String("repo", "", "the repo to search")
-	configFlag := flag.String("config", "repos.config.json", "a repos.config.json file")
+	configFlag := flag.Bool("config", false, "a repos.config.json file")
 	token := flag.String("token", "", "a token to clone private repositories")
 	siteFlag := flag.Bool("site", true, "start a site to browse images")
 	jsonFlag := flag.Bool("json", false, "create a images.json file with results")
@@ -61,7 +61,12 @@ func main() {
 
 	os.RemoveAll(tmpDir)
 
-	repos, err := getSettings(*repoFlag, *configFlag)
+	configFile := ""
+	if *configFlag {
+		configFile = "repos.config.json"
+	}
+
+	repos, err := getSettings(*repoFlag, configFile)
 	checkError(err)
 	totalRepos := len(repos)
 	var remainingRepos []string
