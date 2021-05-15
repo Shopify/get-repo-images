@@ -54,10 +54,10 @@ npx @shopify/get-repo-images -repo alex-page/alexpage.com.au -token TOKEN
 
 **Advanced usage**
 
-To get the images from multiple repositories, specific image extensions, minimum image sizes you can add more options to the `repos.config.json`:
+To get the images from multiple repositories, specific image extensions, minimum image sizes you can add options to a `repos.config.json` file:
 
 ```shell
-npx @shopify/get-repo-images -settings get-repo-images.json
+npx @shopify/get-repo-images -config
 ```
 
 ```json
