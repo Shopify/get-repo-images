@@ -48,7 +48,6 @@ var clonedCount = 0
 var imageCount = 0
 var doneCount = 0
 var green = color.New(color.FgGreen).SprintFunc()
-var cwd, _ = os.Getwd()
 
 func main() {
 	var images []Image
@@ -58,13 +57,15 @@ func main() {
 	siteFlag := flag.Bool("site", true, "start a site to browse images")
 	jsonFlag := flag.Bool("json", false, "create a images.json file with results")
 	buildFlag := flag.Bool("build", false, "build the site to the .site dir")
+	nodeDir := flag.String("nodedir", "", "path where NodeJS is ran")
 	flag.Parse()
 
 	os.RemoveAll(tmpDir)
+	siteBuildLocation = filepath.Join(*nodeDir, siteBuildLocation)
 
 	configFile := ""
 	if *configFlag {
-		configFile = "repos.config.json"
+		configFile = filepath.Join(*nodeDir, "repos.config.json")
 	}
 
 	repos, err := getSettings(*repoFlag, configFile)
@@ -130,7 +131,8 @@ func main() {
 	data := Data{allRepos, images}
 
 	if *jsonFlag {
-		err := writeJsonFile(data, "images.json")
+		jsonFile := filepath.Join(*nodeDir, "images.json")
+		err := writeJsonFile(data, jsonFile)
 		checkError(err)
 		spinnerIndicator.Stop()
 		fmt.Println(green("✓"), "Created images.json file with results")
@@ -138,7 +140,7 @@ func main() {
 	}
 
 	if *siteFlag {
-		err := createSite(data, *buildFlag)
+		err := createSite(data, *buildFlag, *nodeDir)
 		checkError(err)
 		return
 	}

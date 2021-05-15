@@ -44,6 +44,7 @@ const install = () => {
 
 const run = () => {
   const [, , ...args] = process.argv;
+  args.push('-nodedir', process.cwd());
   const result = childProcess.spawnSync(binaryLocation, args, {
     stdio: "inherit",
     cwd: packageDir

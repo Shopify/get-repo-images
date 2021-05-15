@@ -14,7 +14,7 @@ import (
 	"github.com/otiai10/copy"
 )
 
-func createSite(data Data, buildFlag bool) error {
+func createSite(data Data, buildFlag bool, nodeDir string) error {
 	spinnerIndicator := spinner.New(spinner.CharSets[14], 100*time.Millisecond)
 	spinnerIndicator.Start()
 	spinnerIndicator.Color("blue")
@@ -46,12 +46,12 @@ func createSite(data Data, buildFlag bool) error {
 	}
 
 	if buildFlag {
-		err = os.RemoveAll(filepath.Join(cwd, siteBuildLocation))
+		err = os.RemoveAll(siteBuildLocation)
 		if err != nil {
 			return err
 		}
 
-		err = copy.Copy(siteDir, filepath.Join(cwd, siteBuildLocation))
+		err = copy.Copy(siteDir, siteBuildLocation)
 		if err != nil {
 			return err
 		}
