@@ -46,11 +46,6 @@ func createSite(data Data, buildFlag bool) error {
 	}
 
 	if buildFlag {
-		cwd, err := os.Getwd()
-		if err != nil {
-			return err
-		}
-
 		err = os.RemoveAll(filepath.Join(cwd, siteBuildLocation))
 		if err != nil {
 			return err

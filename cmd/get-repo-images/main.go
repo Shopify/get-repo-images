@@ -48,6 +48,7 @@ var clonedCount = 0
 var imageCount = 0
 var doneCount = 0
 var green = color.New(color.FgGreen).SprintFunc()
+var cwd, _ = os.Getwd()
 
 func main() {
 	var images []Image
@@ -63,7 +64,7 @@ func main() {
 
 	configFile := ""
 	if *configFlag {
-		configFile = "repos.config.json"
+		configFile = filepath.Join(cwd, "repos.config.json")
 	}
 
 	repos, err := getSettings(*repoFlag, configFile)
