@@ -53,3 +53,10 @@ func TestGetSettingsMultipleRepos(t *testing.T) {
 		t.Errorf("Incorrect settings for two repo")
 	}
 }
+
+func TestGetSettingsNoFlags(t *testing.T) {
+	_, err := getSettings("", "")
+	if err == nil {
+		t.Errorf("Should fail to GetSettings as no flags provided")
+	}
+}

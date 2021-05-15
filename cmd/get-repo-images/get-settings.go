@@ -8,6 +8,10 @@ import (
 )
 
 func getSettings(repoFlag string, configFlag string) ([]RepoSettings, error) {
+	if repoFlag == "" && configFlag == "" {
+		return nil, errors.New("repo flag or config flag with repos.config.json are required")
+	}
+
 	var settings []RepoSettings
 	defaultExtensions := []string{"svg", "png", "jpg", "jpeg", "gif", "webp"}
 
@@ -22,7 +26,7 @@ func getSettings(repoFlag string, configFlag string) ([]RepoSettings, error) {
 
 	file, err := os.Open(configFlag)
 	if err != nil {
-		return nil, errors.New("--repo flag or repos.config.json file required to run search")
+		return nil, err
 	}
 	defer file.Close()
 
