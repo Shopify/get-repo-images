@@ -64,7 +64,7 @@ npx @shopify/get-repo-images -config
 {
   "repos": [
     {
-      "repo": "shopify/android",
+      "repo": "shopify/mobile",
       "minSize": 1000,
       "extensions": ["webp"],
       "usageMatchers": ["drawable"],
