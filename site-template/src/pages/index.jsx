@@ -126,7 +126,7 @@ function HomePage() {
       <main>
         <ul className="cards">
           {images.map(image =>
-            <li key={image.path}>
+            <li key={image.repo + image.path}>
               <ImageCard image={image} referenceOnClick={setUsageModal} />
             </li>
           )}
