@@ -15,6 +15,7 @@
 - 💾 Save the results to a JSON file
 - 🌏 Generate a Next.js website to browse, sort and filter images
 - 🪆 Sort by the file size, date created and number of references
+- 🔗 [Read about Shopify's journey](https://shopify.engineering/updating-illustrations-shopify-scale)
 
 As Shopify has scaled, our usage of illustrations in code has become fragmented across 6000+ repositories. We recently updated our illustration style and finding the illustrations, prioritising them, removing or updating them across our codebase was a challenge. We hope that `@shopify/get-repo-images` will be useful for anyone maintaining images at scale.
 
