@@ -1,3 +1,3 @@
 #!/usr/bin/env node
-const { run } = require("./exec");
+import { run } from "./exec.js";
 run();

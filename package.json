@@ -3,9 +3,13 @@
   "version": "0.1.14",
   "description": "An extremely fast repository crawler to find images across multiple repos",
   "bin": "./npm/run.js",
+  "type": "module",
   "scripts": {
     "postinstall": "node ./npm/install.js",
     "preuninstall": "node ./npm/uninstall.js"
+  },
+  "engines": {
+    "node": ">=16"
   },
   "license": "MIT",
   "files": [
@@ -28,7 +32,10 @@
     "url": "http://alexpage.com.au"
   },
   "dependencies": {
-    "got": "^11.8.2",
-    "tar": "^6.1.0"
+    "got": "^13.0.0",
+    "tar": "^6.2.0"
+  },
+  "devDependencies": {
+    "@types/got": "^9.6.12"
   }
 }
