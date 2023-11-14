@@ -13,7 +13,7 @@ jobs:
     name: CI
     strategy:
       matrix:
-        os: [shopify-ubuntu-latest, shopify-windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:

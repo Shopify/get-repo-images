@@ -7,7 +7,7 @@ on:
 jobs:
   upload-binaries:
     name: Upload binaries to release
-    runs-on: shopify-ubuntu-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         # build and publish in parallel: linux/386, linux/amd64, windows/386, windows/amd64, darwin/amd64, darwin/arm64
@@ -17,9 +17,7 @@ jobs:
           - goarch: "386"
             goos: darwin
           - goarch: "arm64"
-            goos: windows
-          - goarch: "arm64"
-            goos: linux
+            goos: [windows, linux]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
