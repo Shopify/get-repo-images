@@ -32,8 +32,8 @@ jobs:
       # get-repo-images or get-repo-images.exe
       - run: tar -czvf ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz get-repo-images*
       - name: Upload ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz to release
-        uses: Shopify/upload-to-release@master
+        uses: JasonEtco/upload-to-release@master
         with:
-          name: ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
-          path: ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
+          args: ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
+        env:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
