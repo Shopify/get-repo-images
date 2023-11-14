@@ -30,10 +30,13 @@ jobs:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
       # get-repo-images or get-repo-images.exe
+      - run: ls
+      - run: tar --version
+      - run: echo "${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz"
       - run: tar -czvf ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz get-repo-images*
       - name: Upload ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz to release
-        uses: JasonEtco/upload-to-release@master
+        uses: Shopify/upload-to-release@master
         with:
-          args: ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
-        env:
+          name: ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
+          path: ${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
           repo-token: ${{ secrets.GITHUB_TOKEN }}
