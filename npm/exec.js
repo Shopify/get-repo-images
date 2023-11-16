@@ -9,13 +9,16 @@ import { fileURLToPath } from "url";
 import got from "got";
 import tar from "tar";
 
-const packageData = JSON.parse(fs.readFileSync("package.json", "utf8"));
-const { name, version } = packageData;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const binaryFile = name.split("/")[1];
+
 const packageDir = path.join(__dirname, "..");
-const binaryLocation = path.join(packageDir, binaryFile);
+const packageJsonFilePath = path.join(packageDir, "package.json");
+const packageData = JSON.parse(fs.readFileSync(packageJsonFilePath, "utf8"));
+const { name, version } = packageData;
+
+const binaryFileName = name.split("/")[1];
+const binaryFilePath = path.join(packageDir, binaryFileName);
 
 const platformFiles = {
   "darwin x64": "darwin-amd64",
@@ -33,13 +36,13 @@ if (!platform) {
 }
 
 export const uninstall = () => {
-  if (fs.existsSync(binaryLocation)) {
-    fs.rmSync(binaryLocation);
+  if (fs.existsSync(binaryFilePath)) {
+    fs.rmSync(binaryFilePath);
   }
 };
 
 export const install = () => {
-  const url = `https://github.com/Shopify/${binaryFile}/releases/download/v${version}/${platform}.tar.gz`;
+  const url = `https://github.com/Shopify/${binaryFileName}/releases/download/v${version}/${platform}.tar.gz`;
   stream.pipeline(
     got.stream(url),
     tar.x({ C: packageDir }),
@@ -50,7 +53,7 @@ export const install = () => {
 export const run = () => {
   const [, , ...args] = process.argv;
   args.push("-nodedir", process.cwd());
-  const result = childProcess.spawnSync(binaryLocation, args, {
+  const result = childProcess.spawnSync(binaryFilePath, args, {
     stdio: "inherit",
     cwd: packageDir,
   });
