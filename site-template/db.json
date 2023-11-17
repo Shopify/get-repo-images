@@ -1,0 +1,60 @@
+{
+  "tags": ["alex-page/alexpage.dev"],
+  "images": [
+    {
+      "name": "favicon.svg",
+      "path": "/src/images/favicon.svg",
+      "repo": "alex-page/alexpage.dev",
+      "size": 468,
+      "date": "2023-11-16 13:25:14.409024183 +1100 AEDT"
+    },
+    {
+      "name": "me.jpg",
+      "path": "/src/images/me.jpg",
+      "repo": "alex-page/alexpage.dev",
+      "size": 12456,
+      "date": "2023-11-16 13:25:14.409647055 +1100 AEDT",
+      "usage": [
+        {
+          "path": "src/_includes/header.njk",
+          "lineNumber": 3,
+          "line": "<img src=\"/images/me.jpg\" alt=\"{{ item.alt }}\" />"
+        }
+      ]
+    },
+    {
+      "name": "site.jpg",
+      "path": "/src/images/site.jpg",
+      "repo": "alex-page/alexpage.dev",
+      "size": 35056,
+      "date": "2023-11-16 13:25:14.410623633 +1100 AEDT",
+      "usage": [
+        {
+          "path": "README.md",
+          "lineNumber": 1,
+          "line": "<img src=\"https://github.com/alex-page/alexpage.dev/blob/main/src/images/site.jpg?raw=true\">"
+        },
+        {
+          "path": "src/_includes/meta.njk",
+          "lineNumber": 11,
+          "line": "<meta name=\"twitter:image\" content=\"http://alexpage.dev/images/site.jpg\" />"
+        }
+      ]
+    },
+    {
+      "name": "van.jpg",
+      "path": "/src/images/van.jpg",
+      "repo": "alex-page/alexpage.dev",
+      "size": 15302,
+      "date": "2023-11-16 13:25:14.411195297 +1100 AEDT",
+      "usage": [
+        {
+          "path": "src/_includes/header.njk",
+          "lineNumber": 9,
+          "line": "<img src=\"/images/van.jpg\" alt=\"{{ item.alt }}\" />"
+        }
+      ]
+    }
+  ],
+  "totalImages": 4
+}
