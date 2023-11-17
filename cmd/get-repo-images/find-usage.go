@@ -13,28 +13,18 @@ func findUsage(images []Image, settings RepoSettings) ([]Image, error) {
 	var repoDir = filepath.Join(tmpDir, settings.Repo)
 
 	err := filepath.WalkDir(repoDir, func(path string, d fs.DirEntry, err error) error {
-		if err != nil {
-			return err
-		}
+		if err != nil { return err }
 
 		fileStats, err := os.Lstat(path)
-		if err != nil {
-			return err
-		}
+		if err != nil { return err }
 
-		if !fileStats.Mode().IsRegular() {
-			return nil
-		}
+		if !fileStats.Mode().IsRegular() { return nil }
 
 		// Ignore hidden directory like .git
-		if strings.HasPrefix(path, ".") {
-			return nil
-		}
+		if strings.HasPrefix(path, ".") { return nil }
 
 		var file *os.File
-		if file, err = os.Open(path); err != nil {
-			return err
-		}
+		if file, err = os.Open(path); err != nil { return err }
 		defer file.Close()
 
 		isBufferTested := false
@@ -87,9 +77,7 @@ func findUsage(images []Image, settings RepoSettings) ([]Image, error) {
 		return nil
 	})
 
-	if err != nil {
-		return nil, err
-	}
+	if err != nil { return nil, err }
 
 	return images, nil
 }
