@@ -90,20 +90,20 @@ export default async function Page({ searchParams }: PageProps) {
 
   return (
     <div className="h-screen flex flex-col justify-stretch">
-      <header className="flex py-2 px-4 gap-4 border-b border-zinc-100">
+      <header className="flex py-2 px-4 gap-4 border-b bg-white border-zinc-100 sticky top-0">
         <Link href="/" className="flex">
           <Image src="/logo.svg" width="24" height="24" alt="Shopify logo" />
         </Link>
         <SearchForm repos={data.repos} totalImages={data.totalImages} />
       </header>
-      <main className="flex-1 bg-zinc-50  overflow-y-auto p-2">
-        <ul className="grid grid-flow-col grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-2">
+      <main className="flex-1 bg-zinc-50 p-2">
+        <ul className="grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-2">
           {data.images.map((image) => (
             <li
               className="flex flex-col bg-white rounded-md p-2 shadow-sm shadow-zinc-100"
               key={image.path}
             >
-              <div className="flex-1 flex justify-center items-center">
+              <div className="flex-1 flex justify-center items-center transparent-bg">
                 <Image
                   className="rounded-lg"
                   style={{ objectFit: "contain" }}
@@ -153,11 +153,11 @@ export default async function Page({ searchParams }: PageProps) {
           ))}
         </ul>
       </main>
-      <footer className="py-2 px-4 border-t border-zinc-100">
+      <footer className="py-2 px-4 border-t bg-white border-zinc-100 sticky bottom-0">
         <Pagination
           limit={limitNumber}
           page={Number(page)}
-          totalImages={data.totalImages}
+          totalImages={matchingImages.length}
         />
       </footer>
     </div>

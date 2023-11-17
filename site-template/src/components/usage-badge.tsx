@@ -2,6 +2,10 @@
 
 import { ImageUsage } from "@/app/page";
 import {
+  ExternalLinkIcon,
+  ExclamationTriangleIcon,
+} from "@radix-ui/react-icons";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -31,16 +35,16 @@ export function UsageBadge({ imageName, repo, usage }: UsageBadgeProps) {
             times
           </DialogTitle>
           <DialogDescription className="text-xs">
-            <ul className="grid gap-4 mt-4 w-full">
+            <ul className="grid gap-4 mt-2 w-full">
               {usage.map(({ line, lineNumber, path }) => (
                 <li key={`usage-${imageName}-${path}-${lineNumber}`}>
                   <Link
                     rel="noopener noreferrer"
                     target="_blank"
-                    className="text-blue-500 font-medium hover:underline"
+                    className="text-blue-500 font-medium hover:underline inline-flex gap-1"
                     href={`https://github.com/${repo}/blob/master/${path}#L${lineNumber}`}
                   >
-                    {path} - L{lineNumber}
+                    {path} - L{lineNumber} <ExternalLinkIcon />
                   </Link>
                   <pre className="font-mono bg-zinc-100 p-2">
                     <code>
@@ -51,6 +55,10 @@ export function UsageBadge({ imageName, repo, usage }: UsageBadgeProps) {
                 </li>
               ))}
             </ul>
+            <p className="text-xs mt-8 text-yellow-600 inline-flex gap-1">
+              <ExclamationTriangleIcon />
+              The usage feature is in alpha and can have inaccurate results
+            </p>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

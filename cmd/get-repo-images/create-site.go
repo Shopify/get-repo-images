@@ -7,7 +7,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/briandowns/spinner"
@@ -26,35 +25,25 @@ func createSite(data Data, buildFlag bool, nodeDir string) error {
 	os.RemoveAll(filepath.Join(templateDir, ".next"))
 
 	err := copy.Copy(templateDir, siteDir)
-	if err != nil {
-		return err
-	}
+	if err != nil { return err }
 
 	err = copy.Copy(filepath.Join(tmpDir, "images"), imgDir)
-	if err != nil {
-		return err
-	}
+	if err != nil { return err }
 
 	err = writeJsonFile(data, filepath.Join(siteDir, "db.json"))
-	if err != nil {
-		return err
-	}
+	if err != nil { return err }
 
 	_, err = exec.LookPath("node")
 	if err != nil {
-		return errors.New("didn't find 'nodejs' executable")
+		return errors.New("Ensure 'nodejs' is installed no executable found")
 	}
 
 	if buildFlag {
 		err = os.RemoveAll(siteBuildLocation)
-		if err != nil {
-			return err
-		}
+		if err != nil { return err }
 
 		err = copy.Copy(siteDir, siteBuildLocation)
-		if err != nil {
-			return err
-		}
+		if err != nil { return err }
 
 		spinnerIndicator.Stop()
 		fmt.Println(green("✓"), "Site has been created at", siteBuildLocation)
@@ -62,33 +51,29 @@ func createSite(data Data, buildFlag bool, nodeDir string) error {
 		return nil
 	}
 
+	spinnerIndicator.Stop()
+	fmt.Println(green("✓"), "Site created running npm install && npm run dev")
+
 	commands := [][]string{
 		{"npm", "install"},
 		{filepath.Join("node_modules", ".bin", "next"), "start"},
 	}
 
-	nextSuccessString := "started server on 0.0.0.0:3000, url: http://localhost:3000"
 	for index, command := range commands {
 		cmd := exec.Command(command[0], command[index+1:]...)
 		cmd.Dir = siteDir
 
 		stdout, err := cmd.StdoutPipe()
-		if err != nil {
-			return err
-		}
-
+		if err != nil { return err }
+		
 		err = cmd.Start()
-		if err != nil {
-			return err
-		}
+		if err != nil { return err }
 
 		scanner := bufio.NewScanner(stdout)
 		for scanner.Scan() {
-			if strings.Contains(scanner.Text(), nextSuccessString) {
-				spinnerIndicator.Stop()
-				fmt.Println(green("✓"), "Browse, sort and filter your images http://localhost:3000")
-			}
+			fmt.Println(scanner.Text())
 		}
+
 		cmd.Wait()
 	}
 

@@ -13,8 +13,8 @@ const sortItems = [
   { value: "date", label: "Oldest" },
   { value: "size-desc", label: "Largest file size" },
   { value: "size", label: "Smallest file size" },
-  { value: "name-desc", label: "Alphabetical A to Z" },
-  { value: "name", label: "Alphabetical Z to A" },
+  { value: "name-desc", label: "Alphabetical Z to A" },
+  { value: "name", label: "Alphabetical A to Z" },
 ];
 
 interface SearchFormParams {
@@ -31,6 +31,7 @@ export function SearchForm({ repos, totalImages }: SearchFormParams) {
     (key: string, value: string) => {
       const params = new URLSearchParams(searchParams);
       params.set(key, value);
+      params.set("page", "0");
 
       return params.toString();
     },

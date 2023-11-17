@@ -5,9 +5,13 @@
 yarn_error.log
 node_modules
 
+# Generated for testing the website and CLI
+site-template/public/repo-images
+site-template/db.json
 images.json
 
 repos.config.json
 /get-repo-images
 
+get-repo-images/
 site-template/.next
