@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"os"
 	"testing"
 )
@@ -28,7 +28,7 @@ func TestWriteJsonFile(t *testing.T) {
 	}
 	defer file.Close()
 
-	byteValue, err := ioutil.ReadAll(file)
+	byteValue, err := io.ReadAll(file)
 	if err != nil {
 		t.Errorf("Error occured when reading JSON file\n%s", err)
 	}

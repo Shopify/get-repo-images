@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
@@ -46,7 +45,7 @@ func writeJsonFile(jsonRaw interface{}, dest string) error {
 		return err
 	}
 
-	err = ioutil.WriteFile(dest, buffer.Bytes(), 0644)
+	err = os.WriteFile(dest, buffer.Bytes(), 0644)
 	if err != nil {
 		return err
 	}

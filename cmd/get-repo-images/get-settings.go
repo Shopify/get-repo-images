@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"errors"
-	"io/ioutil"
+	"io"
 	"os"
 )
 
@@ -25,21 +25,15 @@ func getSettings(repoFlag string, configFlag string) ([]RepoSettings, error) {
 	}
 
 	file, err := os.Open(configFlag)
-	if err != nil {
-		return nil, err
-	}
+	if err != nil { return nil, err }
 	defer file.Close()
 
-	byteValue, err := ioutil.ReadAll(file)
-	if err != nil {
-		return nil, err
-	}
+	byteValue, err := io.ReadAll(file)
+	if err != nil { return nil, err }
 
 	var jsonData map[string][]RepoSettings
 	err = json.Unmarshal([]byte(byteValue), &jsonData)
-	if err != nil {
-		return nil, err
-	}
+	if err != nil { return nil, err }
 
 	for _, repo := range jsonData["repos"] {
 		extensions := repo.Extensions
