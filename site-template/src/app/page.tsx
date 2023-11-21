@@ -106,7 +106,7 @@ export default async function Page({ searchParams }: PageProps) {
               <div className="flex-1 flex justify-center items-center transparent-bg">
                 <Image
                   className="rounded-lg"
-                  style={{ objectFit: "contain" }}
+                  style={{ objectFit: "contain", maxHeight: "300px" }}
                   alt=""
                   src={`/repo-images/${image.repo}${image.path}`}
                   width="500"
