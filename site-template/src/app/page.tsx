@@ -114,10 +114,7 @@ export default async function Page({ searchParams }: PageProps) {
                 />
               </div>
               <div className="mt-2">
-                <h2
-                  className="font-mono text-xs truncate font-semibold text-zinc-700"
-                  title={image.name}
-                >
+                <h2 className="font-mono text-xs truncate font-semibold text-zinc-700">
                   {image.name}
                 </h2>
                 <p className="flex gap-1 items-center text-[0.65rem] text-zinc-500 border-t border-zinc-100 pt-1 mt-1">
@@ -138,6 +135,15 @@ export default async function Page({ searchParams }: PageProps) {
                   <span className="font-semibold w-8">Size:</span>
                   <span className="bg-zinc-100 py-px px-1 rounded-md font-mono">
                     {prettyBytes(image.size, { space: false })}
+                  </span>
+                </p>
+                <p className="flex gap-1 items-center text-[0.65rem] text-zinc-500 border-t border-zinc-100 pt-1 mt-1">
+                  <span className="font-semibold w-8">Path:</span>
+                  <span
+                    className="bg-zinc-100 py-px px-1 rounded-md font-mono whitespace-nowrap text-right overflow-y-auto"
+                    title={image.path}
+                  >
+                    {image.path}
                   </span>
                 </p>
                 {data.repos.length === 1 ? null : (
