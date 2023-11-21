@@ -7,17 +7,12 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"time"
 
-	"github.com/briandowns/spinner"
 	"github.com/otiai10/copy"
 )
 
 func createSite(data Data, buildFlag bool, nodeDir string) error {
-	spinnerIndicator := spinner.New(spinner.CharSets[14], 100*time.Millisecond)
-	spinnerIndicator.Start()
-	spinnerIndicator.Color("blue")
-	spinnerIndicator.Suffix = " Your site is building, please wait..."
+	fmt.Println("Creating website...")
 
 	templateDir := "site-template"
 
@@ -45,14 +40,12 @@ func createSite(data Data, buildFlag bool, nodeDir string) error {
 		err = copy.Copy(siteDir, siteBuildLocation)
 		if err != nil { return err }
 
-		spinnerIndicator.Stop()
 		fmt.Println(green("✓"), "Site has been created at", siteBuildLocation)
 
 		return nil
 	}
 
-	spinnerIndicator.Stop()
-	fmt.Println(green("✓"), "Site created running npm install && npm run dev")
+	fmt.Println("Running npm install && npm run dev...")
 
 	commands := [][]string{
 		{"npm", "install"},

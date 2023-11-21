@@ -3,7 +3,6 @@ module github.com/Shopify/get-repo-images
 go 1.21.4
 
 require (
-	github.com/briandowns/spinner v1.23.0
 	github.com/fatih/color v1.16.0
 	github.com/go-git/go-git/v5 v5.10.0
 	github.com/otiai10/copy v1.14.0

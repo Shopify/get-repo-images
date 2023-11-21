@@ -6,9 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"sync"
-	"time"
 
-	"github.com/briandowns/spinner"
 	"github.com/fatih/color"
 )
 
@@ -44,13 +42,11 @@ var tmpDir = filepath.Join(os.TempDir(), "get-repo-images")
 var siteDir = filepath.Join(os.TempDir(), "get-repo-images/site")
 var imgDir = filepath.Join(siteDir, "public/repo-images")
 var siteBuildLocation = "get-repo-site"
-var clonedCount = 0
-var imageCount = 0
-var doneCount = 0
 var green = color.New(color.FgGreen).SprintFunc()
 
 func main() {
 	var images []Image
+
 	repoFlag := flag.String("repo", "", "the repo to search")
 	configFlag := flag.Bool("config", false, "a repos.config.json file")
 	token := flag.String("token", "", "a token to clone private repositories")
@@ -70,62 +66,41 @@ func main() {
 
 	repos, err := getSettings(*repoFlag, configFile)
 	checkError(err)
-	totalRepos := len(repos)
-	var remainingRepos []string
+
 	var allRepos []string
+
 	for _, repo := range repos {
-		remainingRepos = append(remainingRepos, repo.Repo)
 		allRepos = append(allRepos, repo.Repo)
 	}
-
-	spinnerIndicator := spinner.New(spinner.CharSets[14], 100*time.Millisecond)
-	spinnerIndicator.Start()
-	spinnerIndicator.Color("blue")
-	spinnerIndicator.Suffix = getStatus(remainingRepos, totalRepos)
 
 	var wg sync.WaitGroup
 	for _, settings := range repos {
 		wg.Add(1)
+
 		go func(settings RepoSettings) {
 			defer wg.Done()
 			repo := settings.Repo
-
+			fmt.Println("Cloning", repo+"...")
 			err := clone(repo, filepath.Join(tmpDir, repo), *token)
 			checkError(err)
-			clonedCount += 1
-			spinnerIndicator.Suffix = getStatus(remainingRepos, totalRepos)
 
+			fmt.Println("Finding images", repo+"...")
 			foundImages, err := findImages(settings, *siteFlag)
 			checkError(err)
-			imageCount += 1
-			spinnerIndicator.Suffix = getStatus(remainingRepos, totalRepos)
 
+			fmt.Println("Finding usage for", len(foundImages), "images in", repo+"...")
 			usage, err := findUsage(foundImages, settings)
 			checkError(err)
 
+			fmt.Println(green("✓"), "Completed", repo)
 			images = append(images, usage...)
-
-			// Remove the repo from remaining repos
-			for index, remainingRepo := range remainingRepos {
-				if remainingRepo == repo {
-					remainingRepos = append(remainingRepos[:index], remainingRepos[index+1:]...)
-				}
-			}
-
-			doneCount += 1
-			spinnerIndicator.Suffix = getStatus(remainingRepos, totalRepos)
 		}(settings)
 	}
 	wg.Wait()
 
-	spinnerIndicator.Stop()
-
 	if len(images) == 0 {
 		fmt.Println("No images found")
 		return
-	} else {
-		fmt.Printf("\033[2K\r")
-		fmt.Println(green("✓"), "Search complete found", len(images), "images")
 	}
 
 	data := Data{allRepos, images}
@@ -134,7 +109,6 @@ func main() {
 		jsonFile := filepath.Join(*nodeDir, "images.json")
 		err := writeJsonFile(data, jsonFile)
 		checkError(err)
-		spinnerIndicator.Stop()
 		fmt.Println(green("✓"), "Created images.json file with results")
 		return
 	}
