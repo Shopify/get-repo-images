@@ -118,7 +118,7 @@ export default async function Page({ searchParams }: PageProps) {
                   {image.name}
                 </h2>
                 <p className="flex gap-1 items-center text-[0.65rem] text-zinc-500 border-t border-zinc-100 pt-1 mt-1">
-                  <span className="font-semibold w-8">Used:</span>
+                  <span className="font-semibold w-8 flex-none">Used:</span>
                   {image.usage ? (
                     <UsageBadge
                       repo={image.repo}
@@ -132,13 +132,13 @@ export default async function Page({ searchParams }: PageProps) {
                   )}
                 </p>
                 <p className="flex gap-1 items-center text-[0.65rem] text-zinc-500 border-t border-zinc-100 pt-1 mt-1">
-                  <span className="font-semibold w-8">Size:</span>
+                  <span className="font-semibold w-8 flex-none">Size:</span>
                   <span className="bg-zinc-100 py-px px-1 rounded-md font-mono">
                     {prettyBytes(image.size, { space: false })}
                   </span>
                 </p>
                 <p className="flex gap-1 items-center text-[0.65rem] text-zinc-500 border-t border-zinc-100 pt-1 mt-1">
-                  <span className="font-semibold w-8">Path:</span>
+                  <span className="font-semibold w-8 flex-none">Path:</span>
                   <span
                     className="bg-zinc-100 py-px px-1 rounded-md font-mono whitespace-nowrap text-right overflow-y-auto"
                     title={image.path}
@@ -148,7 +148,7 @@ export default async function Page({ searchParams }: PageProps) {
                 </p>
                 {data.repos.length === 1 ? null : (
                   <p className="flex gap-1 items-center text-[0.65rem] text-zinc-500 border-t border-zinc-100 pt-1 mt-1">
-                    <span className="font-semibold w-8">Repo:</span>
+                    <span className="font-semibold w-8 flex-none">Repo:</span>
                     <span className="bg-zinc-100 py-px px-1 rounded-md font-mono truncate">
                       {image.repo}
                     </span>
