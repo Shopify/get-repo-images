@@ -28,14 +28,14 @@ export function UsageBadge({ imageName, repo, usage }: UsageBadgeProps) {
         {usage.length}
         {usage.length === 1 ? " time" : " times"}
       </DialogTrigger>
-      <DialogContent className="max-w-screen-xl">
+      <DialogContent className="max-w-5xl">
         <DialogHeader>
           <DialogTitle className="text-zinc-600 text-sm font-semibold">
             <span className="font-mono">{imageName}</span> used {usage.length}{" "}
             times
           </DialogTitle>
           <DialogDescription className="text-xs">
-            <ul className="grid gap-4 mt-2 w-full">
+            <ul className="grid gap-4 mt-2 w-full overflow-auto max-h-96 max-w-[60rem]">
               {usage.map(({ line, lineNumber, path }) => (
                 <li key={`usage-${imageName}-${path}-${lineNumber}`}>
                   <Link
