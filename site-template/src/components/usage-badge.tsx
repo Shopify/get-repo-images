@@ -1,6 +1,5 @@
 "use client";
 
-import { ImageUsage } from "@/app/page";
 import {
   ExternalLinkIcon,
   ExclamationTriangleIcon,
@@ -18,7 +17,7 @@ import Link from "next/link";
 interface UsageBadgeProps {
   repo: string;
   imageName: string;
-  usage: ImageUsage[];
+  usage: string[];
 }
 
 export function UsageBadge({ imageName, repo, usage }: UsageBadgeProps) {
@@ -28,34 +27,32 @@ export function UsageBadge({ imageName, repo, usage }: UsageBadgeProps) {
         {usage.length}
         {usage.length === 1 ? " time" : " times"}
       </DialogTrigger>
-      <DialogContent className="max-w-5xl">
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-zinc-600 text-sm font-semibold">
+          <DialogTitle className="text-zinc-600 text-sm font-semibold px-2">
             <span className="font-mono">{imageName}</span> used {usage.length}{" "}
             times
           </DialogTitle>
           <DialogDescription className="text-xs">
-            <ul className="grid gap-4 mt-2 w-full overflow-auto max-h-96 max-w-[60rem]">
-              {usage.map(({ line, lineNumber, path }) => (
-                <li key={`usage-${imageName}-${path}-${lineNumber}`}>
+            <ul className="grid mt-4 overflow-y-auto max-h-96">
+              {usage.map((use) => (
+                <li key={`usage-${imageName}-${use}`}>
                   <Link
                     rel="noopener noreferrer"
                     target="_blank"
-                    className="text-blue-500 font-medium hover:underline inline-flex gap-1"
-                    href={`https://github.com/${repo}/blob/master/${path}#L${lineNumber}`}
+                    className="block hover:bg-blue-50 p-2 rounded-md"
+                    href={`https://github.com/${repo}/blob/master/${use}`}
                   >
-                    {path} - L{lineNumber} <ExternalLinkIcon />
+                    <p className="font-semibold inline-flex gap-2 text-blue-500">
+                      {use.split("/")[use.split("/").length - 1]}{" "}
+                      <ExternalLinkIcon />
+                    </p>
+                    <p className="truncate max-w-xl">{use}</p>
                   </Link>
-                  <pre className="font-mono bg-zinc-100 p-2">
-                    <code>
-                      <span>{lineNumber}</span>{" "}
-                      <span className="truncate">{line}</span>
-                    </code>
-                  </pre>
                 </li>
               ))}
             </ul>
-            <p className="text-xs mt-8 text-yellow-600 inline-flex gap-1">
+            <p className="text-xs px-2 mt-4 text-yellow-600 inline-flex gap-1">
               <ExclamationTriangleIcon />
               The usage feature is in alpha and can have inaccurate results
             </p>

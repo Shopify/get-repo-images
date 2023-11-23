@@ -20,19 +20,13 @@ interface SearchParams {
   limit?: number;
 }
 
-export interface ImageUsage {
-  path: string;
-  lineNumber: number;
-  line: string;
-}
-
 interface Image {
   name: string;
   path: string;
   repo: string;
   size: number;
   date: string;
-  usage: ImageUsage[];
+  usage: string[];
 }
 
 interface ImageData {

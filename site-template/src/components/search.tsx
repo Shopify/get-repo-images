@@ -4,17 +4,17 @@ import * as React from "react";
 import { Input } from "@/components/ui/input";
 
 interface SearchProps {
-  searchValue?: string;
+  defaultValue?: string | null;
   placeholder: string;
   onChange: (value: string) => void;
 }
 
 export function Search({
-  searchValue = "",
+  defaultValue = "",
   placeholder,
   onChange,
 }: SearchProps) {
-  const [value, setValue] = React.useState(searchValue);
+  const [value, setValue] = React.useState(defaultValue);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -25,7 +25,7 @@ export function Search({
   return (
     <Input
       placeholder={placeholder}
-      value={value}
+      value={value || ""}
       onChange={handleInputChange}
     />
   );

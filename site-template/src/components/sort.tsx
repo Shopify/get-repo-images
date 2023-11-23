@@ -12,20 +12,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-interface SortItem {
-  value: string;
-  label: string;
-}
-
 interface SortProps {
   name: string;
-  items: SortItem[];
+  defaultValue?: string | null;
+  items: { [key: string]: string };
   onChange: (value: string) => void;
 }
 
-export function Sort({ items, name, onChange }: SortProps) {
+export function Sort({ items, name, defaultValue, onChange }: SortProps) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState(defaultValue || "");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -36,30 +32,28 @@ export function Sort({ items, name, onChange }: SortProps) {
           aria-expanded={open}
           className="w-80 justify-between font-normal"
         >
-          {value
-            ? items.find((item) => item.value === value)?.label
-            : `${name}...`}
+          {items[value] || `${name}...`}
           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80 p-0">
         <Command>
           <CommandGroup>
-            {items.map((item) => (
+            {Object.keys(items).map((item) => (
               <CommandItem
-                key={item.value}
-                value={item.value}
+                key={item}
+                value={item}
                 onSelect={(currentValue) => {
                   setValue(currentValue === value ? "" : currentValue);
                   setOpen(false);
                   onChange(currentValue === value ? "" : currentValue);
                 }}
               >
-                {item.label}
+                {items[item]}
                 <CheckIcon
                   className={cn(
                     "ml-auto h-4 w-4",
-                    value === item.value ? "opacity-100" : "opacity-0"
+                    value === item ? "opacity-100" : "opacity-0"
                   )}
                 />
               </CommandItem>

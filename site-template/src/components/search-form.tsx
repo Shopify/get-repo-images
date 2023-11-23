@@ -6,16 +6,16 @@ import { Sort } from "./sort";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 
-const sortItems = [
-  { value: "usage-desc", label: "Most references" },
-  { value: "usage", label: "Least references" },
-  { value: "date-desc", label: "Newest" },
-  { value: "date", label: "Oldest" },
-  { value: "size-desc", label: "Largest file size" },
-  { value: "size", label: "Smallest file size" },
-  { value: "name-desc", label: "Alphabetical Z to A" },
-  { value: "name", label: "Alphabetical A to Z" },
-];
+const sortItems = {
+  "usage-desc": "Most references",
+  usage: "Least references",
+  "date-desc": "Newest",
+  date: "Oldest",
+  "size-desc": "Largest file size",
+  size: "Smallest file size",
+  "name-desc": "Alphabetical Z to A",
+  name: "Alphabetical A to Z",
+};
 
 interface SearchFormParams {
   repos: string[];
@@ -45,17 +45,20 @@ export function SearchForm({ repos, totalImages }: SearchFormParams) {
   return (
     <div className="flex-1 flex gap-2">
       <Search
+        defaultValue={searchParams.get("search")}
         placeholder={`Search ${totalImages} images`}
         onChange={(value) => updateParams("search", value)}
       />
       {repos.length === 1 ? null : (
         <Combobox
+          defaultValue={searchParams.get("repo")}
           name="repo"
           items={repos}
           onChange={(value) => updateParams("repo", value)}
         />
       )}
       <Sort
+        defaultValue={searchParams.get("sort")}
         name="Sort by"
         items={sortItems}
         onChange={(value) => updateParams("sort", value)}

@@ -21,12 +21,18 @@ import {
 interface ComboboxProps {
   name: string;
   items: string[];
+  defaultValue?: string | null;
   onChange: (value: string) => void;
 }
 
-export function Combobox({ items, name, onChange }: ComboboxProps) {
+export function Combobox({
+  items,
+  name,
+  defaultValue,
+  onChange,
+}: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState(defaultValue);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
