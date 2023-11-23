@@ -10,19 +10,13 @@ import (
 	"github.com/fatih/color"
 )
 
-type Usage struct {
-	Path       string `json:"path"`       // the path to the file that references the image
-	LineNumber int    `json:"lineNumber"` // the line number that references the image
-	Line       string `json:"line"`       // the line of code
-}
-
 type Image struct {
-	Name  string  `json:"name"`  // the name of the file
-	Path  string  `json:"path"`  // the location of the file
-	Repo  string  `json:"repo"`  // the repo the image is from
-	Size  int64   `json:"size"`  // length in bytes for regular files; system-dependent for others
-	Date  string  `json:"date"`  // modification time
-	Usage []Usage `json:"usage"` // the images usage in code
+	Name  string   `json:"name"`  // the name of the file
+	Path  string   `json:"path"`  // the location of the file
+	Repo  string   `json:"repo"`  // the repo the image is from
+	Size  int64    `json:"size"`  // length in bytes for regular files; system-dependent for others
+	Date  string   `json:"date"`  // modification time
+	Usage []string `json:"usage"` // the images usage in code
 }
 
 type RepoSettings struct {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -60,11 +61,7 @@ func findUsage(images []Image, settings RepoSettings) ([]Image, error) {
 				}
 
 				if lineMatches {
-					images[index].Usage = append(images[index].Usage, Usage{
-						LineNumber: lineNumber,
-						Line:       strings.TrimSpace(line),
-						Path:       strings.Replace(path, repoDir+"/", "", 1),
-					})
+					images[index].Usage = append(images[index].Usage, fmt.Sprintf("%s#L%d", path, lineNumber))
 				}
 			}
 			lineNumber++
