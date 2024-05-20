@@ -19,13 +19,13 @@
 
 As Shopify has scaled, our usage of illustrations in code has become fragmented across 6000+ repositories. We recently updated our illustration style and finding the illustrations, prioritising them, removing or updating them across our codebase was a challenge. We hope that `@shopify/get-repo-images` will be useful for anyone maintaining images at scale.
 
-| Status | Owner | Help |
-| --- | --- | --- |
+| Status       | Owner         | Help                                                               |
+| ------------ | ------------- | ------------------------------------------------------------------ |
 | Experimental | @polaris-team | [New issue](https://github.com/Shopify/get-repo-images/issues/new) |
 
 ## How to use
 
-Make sure you have [Node.js version 14](https://nodejs.org/en/download/) or later, then run this command from your terminal to to browse, sort and filter images from `alex-page/alexpage.com.au` on a Next.js website at [http://localhost:3000](http://localhost:3000) 
+Make sure you have [Node.js version 20](https://nodejs.org/en/download/) or later, then run this command from your terminal to to browse, sort and filter images from `alex-page/alexpage.com.au` on a Next.js website at [http://localhost:3000](http://localhost:3000)
 
 ```bash
 npx @shopify/get-repo-images -repo alex-page/alexpage.com.au
@@ -71,7 +71,7 @@ npx @shopify/get-repo-images -config
       "usageMatchers": ["drawable"],
       "usageNoExtension": true
     },
-    {"repo": "alex-page/harmonograph.art"},
+    { "repo": "alex-page/harmonograph.art" }
   ]
 }
 ```
