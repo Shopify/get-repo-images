@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import {
   Popover,
@@ -44,34 +45,36 @@ export function Combobox({
           className="w-80 justify-between font-normal"
         >
           {value ? items.find((item) => item === value) : `Select ${name}...`}
-          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-0">
+      <PopoverContent className="w-80 p-0 bg-white">
         <Command>
-          <CommandInput placeholder={`Search ${name}...`} className="h-9" />
-          <CommandEmpty>{`No ${name} found.`}</CommandEmpty>
-          <CommandGroup>
-            {items.map((item) => (
-              <CommandItem
-                key={item}
-                value={item}
-                onSelect={(currentValue) => {
-                  setValue(currentValue === value ? "" : currentValue);
-                  setOpen(false);
-                  onChange(currentValue === value ? "" : currentValue);
-                }}
-              >
-                {item}
-                <CheckIcon
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    value === item ? "opacity-100" : "opacity-0"
-                  )}
-                />
-              </CommandItem>
-            ))}
-          </CommandGroup>
+          <CommandInput placeholder={`Search ${name}...`} />
+          <CommandList>
+            <CommandEmpty>{`No ${name} found.`}</CommandEmpty>
+            <CommandGroup>
+              {items.map((item) => (
+                <CommandItem
+                  key={item}
+                  value={item}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue);
+                    onChange(currentValue === value ? "" : currentValue);
+                    setOpen(false);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value === item ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  {item}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
         </Command>
       </PopoverContent>
     </Popover>
