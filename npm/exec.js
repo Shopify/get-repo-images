@@ -7,7 +7,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import got from "got";
-import tar from "tar";
+import { extract } from "tar/x";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -45,7 +45,7 @@ export const install = () => {
   const url = `https://github.com/Shopify/${binaryFileName}/releases/download/v${version}/${platform}.tar.gz`;
   stream.pipeline(
     got.stream(url),
-    tar.x({ C: packageDir }),
+    extract({ C: packageDir }),
     (err) => err && console.error(err.message)
   );
 };

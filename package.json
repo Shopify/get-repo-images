@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "got": "^13.0.0",
-    "tar": "^6.2.0"
+    "tar": "^7.1.0"
   },
   "devDependencies": {
     "@types/got": "^9.6.12"
