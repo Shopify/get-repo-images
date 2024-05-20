@@ -32,7 +32,7 @@
     "url": "http://alexpage.com.au"
   },
   "dependencies": {
-    "got": "^13.0.0",
+    "got": "^14.3.0",
     "tar": "^6.2.0"
   },
   "devDependencies": {
