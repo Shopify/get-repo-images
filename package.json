@@ -9,7 +9,7 @@
     "preuninstall": "node ./npm/uninstall.js"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=20.10.0"
   },
   "license": "MIT",
   "files": [
@@ -32,7 +32,7 @@
     "url": "http://alexpage.com.au"
   },
   "dependencies": {
-    "got": "^13.0.0",
+    "got": "^14.3.0",
     "tar": "^7.1.0"
   },
   "devDependencies": {
