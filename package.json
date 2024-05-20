@@ -9,7 +9,7 @@
     "preuninstall": "node ./npm/uninstall.js"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=20.10.0"
   },
   "license": "MIT",
   "files": [
