@@ -1,3 +1,6 @@
+> [!CAUTION]
+> This repository is no longer under active development. Shopify occasionally uses the published package internally.
+
 <p align="center">
   <img src="https://github.com/Shopify/get-repo-images/blob/main/example.png" alt="A screenshot of the get-repo-images command being ran" width="690px">
 </p>
@@ -19,9 +22,9 @@
 
 As Shopify has scaled, our usage of illustrations in code has become fragmented across 6000+ repositories. We recently updated our illustration style and finding the illustrations, prioritising them, removing or updating them across our codebase was a challenge. We hope that `@shopify/get-repo-images` will be useful for anyone maintaining images at scale.
 
-| Status       | Owner         | Help                                                               |
-| ------------ | ------------- | ------------------------------------------------------------------ |
-| Experimental | @polaris-team | [New issue](https://github.com/Shopify/get-repo-images/issues/new) |
+| Status       | Owner      | Help                                                               |
+| ------------ | ---------- | ------------------------------------------------------------------ |
+| Unmaintained | @alex-page | [New issue](https://github.com/Shopify/get-repo-images/issues/new) |
 
 ## How to use
 
